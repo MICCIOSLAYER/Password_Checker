@@ -1,6 +1,6 @@
 import requests
 import hashlib
-import sys
+
 
 
 def richiedi_dati_API(query : any) -> requests.Response :
@@ -44,9 +44,8 @@ def pwned_API_check(password : str, sha256=False) -> tuple:
     primi5, restanti = sha1Pass[:5], sha1Pass[5:]  # separa i primi 5 caratteri della conversione dal resto
     risposta = richiedi_dati_API(primi5)  # immagazzina i primi 5 caratteri della conversione nella risposta
     
-    if(sha256==True):
+    if(sha256==True): # in case the protocol request is sha256
         sha256Pass = hashlib.sha256(password.encode('utf-8')).hexdigest()  # converte la password in sha1
         primi5, restanti = sha256Pass[:5], sha256Pass[5:]
 
-    confrontation = (risposta, restanti)
-    return confrontation  # return conta_trapelate(risposta, restanti) # restituisce un risultato != 0 se il testo della risposta corrisponde ai restanti
+    return tuple([risposta, restanti])  # need a tuple cause the order is important 
