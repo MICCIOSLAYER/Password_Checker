@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
-import functions 
+import API_functions 
 import sys
 
 # ESECUZIONE DEL PROGRAMMA
 # TODO introduce a cl to get the password from a block note path, then
 def main(argomenti):
     for password in argomenti:
-        count = functions.conta_trapelate(functions.pwned_API_check(password))
+        count = API_functions.conta_trapelate(API_functions.pwned_API_check(password))
         if count:
             print(f'{password} è stata hackerata {count} volte')
         # TODO introduce a suggestion to create a password
