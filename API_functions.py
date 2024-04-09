@@ -5,8 +5,11 @@ import hashlib
 
 def richiedi_dati_API(query : any) -> requests.Response : # insert the pass to sheck to get a response
     '''
-    get the response from the API, if the status code is not 200, raise an error    
+    get the response from the API, if the status code is not 200, raise an error
 
+    Parameters
+     query : any - the password to check ( better if in hexdigest format)    
+     response : requests.Response - the response from the API
     '''
     query_str = str(query)
     url = 'https://api.pwnedpasswords.com/range/' + query_str
@@ -22,6 +25,11 @@ def conta_trapelate(tupla : tuple) -> int:
     if the 2nd param matches the count of violation,
     the function returns this value, otherwise 0
     this let us know the number of violations w\o inserting the full password, in hexdigest format
+    
+    Parameters
+    tupla : tuple - the tuple that contains the response from the API and the password to check
+    count : int - the count of violation of the password registered
+
     '''
     hashes = tupla[0]
     hash_to_check = tupla[1]
@@ -36,6 +44,11 @@ def conta_trapelate(tupla : tuple) -> int:
 def pwned_API_check(password : str, sha256=False) -> tuple: # sha256 is a flag to use the sha256 protocol
     '''
     check if the password exists in the API, then get the API response and the rest of conversion
+    
+    Parameters
+    password : str - the password to convert 
+    sha256 : bool - the flag to use the sha256 protocol or not
+    tuple([risposta, restanti]) : tuple - the tuple that contains the response from the API and the rest of the conversion
 
     '''    
     sha1Pass = hashlib.sha1(password.encode('utf-8')).hexdigest()  # convert through sha1 for privacy reasons
