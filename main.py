@@ -33,7 +33,7 @@ def main(argomenti):
     if file_path:   # overwrite the file with a blanck note to keep safe your passrords
         path_for_safe.overwrite_blanck_note(file_path)  
     
-    return 'please re:type to run again the code'
+    return 'something else to check?'
 
 if __name__ == '__main__' :
     sys.exit(main(sys.argv[1:]))
