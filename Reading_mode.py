@@ -9,7 +9,7 @@ if argomenti[0] in options:
 def read_from_file(path : str) -> list: # if is_path is True, the path is a file, otherwise is a list
     print('reading from file...')
     
-    with open(path, 'r') as f: # TODO check if f is not empty
+    with open(path, 'r') as f: 
 
         pw_list = f.readlines()
         passwords_list = [pw.strip() for pw in pw_list]
@@ -31,7 +31,7 @@ def Description() -> str:
 
 def Suggestion_for_a_password (count_of_violation : int) -> str:
     if count_of_violation > 100 :
-        return'''a suggestion for a new password: \n
+        print('''a suggestion for a new password: \n
               use a Capital letter, a number, a special character and a length of at least 8 characters \n
-              '''
+              ''')
     return ''
