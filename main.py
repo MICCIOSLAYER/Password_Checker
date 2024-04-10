@@ -27,11 +27,11 @@ def main(list_of_interest : list) -> str: # from a list of object get the passwo
             sys.exit(f'file {list_of_interest[1]} not found')
 
     else :
-        passwords_list = list_of_interest  # if not a path assume there's a list of passwords
+        passwords_list = list_of_interest[1:]  # if not a path assume there's a list of passwords
 
     for password in passwords_list:
 
-        count = API_functions.conta_trapelate(API_functions.pwned_API_check(password, sha256))
+        count = int(API_functions.conta_trapelate(API_functions.pwned_API_check(password, sha256))) # int is required to avoid TypeError in max count
         max_count = 0
 
         if count:
@@ -39,7 +39,7 @@ def main(list_of_interest : list) -> str: # from a list of object get the passwo
             print(f'\'{password}\' has been hacked {count} times')
             
         else:
-            print(f'{password} is safe')
+            print(f'{password} is not been hacked')
 
     Reading_mode.Suggestion_for_a_password(max_count)
 
