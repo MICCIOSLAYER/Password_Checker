@@ -24,7 +24,7 @@ def conta_trapelate(tupla : tuple) -> int:
     split the hashes to get the count of violation ( after :), 
     if the 2nd param matches the count of violation,
     the function returns this value, otherwise 0
-    this let us know the number of violations w\o inserting the full password, in hexdigest format
+    this let us know the number of violations without inserting the full password, in hexdigest format
     
     Parameters
     tupla : tuple - the tuple that contains the response from the API and the password to check
@@ -60,5 +60,5 @@ def pwned_API_check(password : str, sha256=False) -> tuple: # sha256 is a flag t
         primi5, restanti = sha256Pass[:5], sha256Pass[5:]
         risposta = richiedi_dati_API(primi5)
         return tuple([risposta, restanti])
-    
+       
     return tuple([risposta, restanti])  # need a tuple cause the order is important 
