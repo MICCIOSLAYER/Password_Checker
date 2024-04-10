@@ -3,7 +3,7 @@ import hashlib
 
 
 
-def richiedi_dati_API(query : any) -> requests.Response : # insert the pass to check to get a response
+def richiedi_dati_API(query) -> requests.Response : # insert the pass to check to get a response
     '''
     get the response from the API, if the status code is not 200, raise an error
 

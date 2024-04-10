@@ -28,6 +28,7 @@ def Description() -> str:
           - if you want to check a list of passwords, please insert them as arguments in place of <PATH>,
             however this option is strongly discouraged since you lose all your control
             in where the password name is saved in current local disk \n''')
+    return ''
 
 def Suggestion_for_a_password (count_of_violation : int) -> str:
     if count_of_violation > 100 :

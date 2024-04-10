@@ -21,7 +21,7 @@ def main(list_of_interest : list) -> str: # from a list of object get the passwo
         try: # control if it is empty
             if path_for_safe.note_is_empty(list_of_interest[1]):
                 sys.exit('please insert some passwords to check in the file')
-            file_path = list_of_interest[1] 
+            file_path = list_of_interest[1]
             passwords_list = Reading_mode.read_from_file(file_path)
         except FileNotFoundError:    # to not crush in case file is not found
             sys.exit(f'file {file_path} not found')
