@@ -20,7 +20,7 @@ def read_from_list(passwords : list) -> list:
     passwords_list = passwords[:]
     return passwords_list
 
-def Description(None) -> str:
+def Description() -> str:
     print('''this is a program to check the security of your passwords: \n
           please compose the command as follows: python3 main.py <PROTOCOL> <PATH>, where: \n
           - <PROTOCOL> is the protocol to use (sha1 or sha256) \n
@@ -28,3 +28,10 @@ def Description(None) -> str:
           - if you want to check a list of passwords, please insert them as arguments in place of <PATH>,
           however this option is strongly discourage since you lose all your control
           in where the password name is saved in current local disk \n''')
+
+def Suggestion_for_a_password (count_of_violation : int) -> str:
+    if count_of_violation > 100 :
+        return'''a suggestion for a new password: \n
+              use a Capital letter, a number, a special character and a length of at least 8 characters \n
+              '''
+    return ''
