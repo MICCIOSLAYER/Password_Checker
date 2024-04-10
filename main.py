@@ -7,7 +7,7 @@ import path_for_safe
 # ESECUZIONE DEL PROGRAMMA
 
 def main(list_of_interest : list) -> str: # from a list of object get the password to check and the protocol to use
-    #Reading_mode.Description() 
+    #Reading_mode.Description()
 
     while(len(list_of_interest) < 1): # to avoid indexing errors, NOTE when protocol selection is fixed 1->2
         print('please insert the list of passwords or the <PATH> containing the passwords to check:')
@@ -36,8 +36,7 @@ def main(list_of_interest : list) -> str: # from a list of object get the passwo
 
         if count:
             max_count = max(max_count, count) # NOTE it is better to use a sum than a product?
-            print(f'\'{password}\' has been hacked {count} times, sha256 used? {protocol_selection}')
-            
+            print(f'\'{password}\' has been hacked {count} times, sha256 used? {protocol_selection}')    
         else:
             print(f'\'{password}\' is not been hacked')
 
@@ -49,7 +48,4 @@ def main(list_of_interest : list) -> str: # from a list of object get the passwo
     return 'something else to check?'
 
 if __name__ == '__main__' :
-    
     sys.exit(main(sys.argv[1:]))
-    
-    
