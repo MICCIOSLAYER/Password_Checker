@@ -3,7 +3,7 @@ import hashlib
 
 
 
-def richiedi_dati_API(query : any) -> requests.Response : # insert the pass to sheck to get a response
+def richiedi_dati_API(query : any) -> requests.Response : # insert the pass to check to get a response
     '''
     get the response from the API, if the status code is not 200, raise an error
 
@@ -37,7 +37,7 @@ def conta_trapelate(tupla : tuple) -> int:
     hashes = (line.split(':') for line in hashes.text.splitlines()) # get the count of violation from hashes
     for h, count in hashes:
         if h == hash_to_check.upper(): # sometimes happens that the hash_to_check is in lower case
-            return count
+            return int(count)
     return 0 # as default return 0 if the password is not in the list ( dictionary)
 
 
@@ -58,5 +58,7 @@ def pwned_API_check(password : str, sha256=False) -> tuple: # sha256 is a flag t
     if(sha256==True): # in case the protocol request is sha256
         sha256Pass = hashlib.sha256(password.encode('utf-8')).hexdigest()  
         primi5, restanti = sha256Pass[:5], sha256Pass[5:]
-
+        risposta = richiedi_dati_API(primi5)
+        return tuple([risposta, restanti])
+    
     return tuple([risposta, restanti])  # need a tuple cause the order is important 

@@ -8,14 +8,14 @@ import path_for_safe
 # ESECUZIONE DEL PROGRAMMA
 
 def main(list_of_interest : list) -> str: # from a list of object get the password to check and the protocol to use
-    Reading_mode.Description() 
+    #Reading_mode.Description() 
 
     while(len(list_of_interest) < 2): # to avoid indexing errors
         print('please insert the protocol and the <PATH> containing the passwords to check:')
         list_of_interest = input().split(' ')
     
     file_path = False   # initialize to use as a flag
-    sha256 = (str(list_of_interest[0]).lower() == 'sha256') #to use the selection of sha256 or sha1 in pwned_API_check
+    protocol = (list_of_interest[0].lower() == 'sha256') #to use the selection of sha256 or sha1 in pwned_API_check
 
     if os.path.exists(list_of_interest[1]): #in case the second term is a file:
         try: # control if it is empty
@@ -31,15 +31,15 @@ def main(list_of_interest : list) -> str: # from a list of object get the passwo
 
     for password in passwords_list:
 
-        count = int(API_functions.conta_trapelate(API_functions.pwned_API_check(password, sha256))) # int is required to avoid TypeError in max count
+        count = API_functions.conta_trapelate(API_functions.pwned_API_check(password, sha256=protocol)) # int is required to avoid TypeError in max count
         max_count = 0
 
         if count:
             max_count = max(max_count, count) # NOTE it is better to use a sum than a product?
-            print(f'\'{password}\' has been hacked {count} times')
+            print(f'\'{password}\' has been hacked {count} times, sha256 used? {protocol}')
             
         else:
-            print(f'{password} is not been hacked')
+            print(f'\'{password}\' is not been hacked')
 
     Reading_mode.Suggestion_for_a_password(max_count)
 
