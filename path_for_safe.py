@@ -1,6 +1,9 @@
 def note_is_empty(path : str) -> bool:
     '''
     check if the note is blank
+
+    Parameters:
+    path : str - the absolute-/path of the note to check
     '''
     with open(path, 'r', encoding='utf-8') as f: # TODO test the encoding
         if f.read() == '':
@@ -12,6 +15,9 @@ def note_is_empty(path : str) -> bool:
 def overwrite_blanck_note(path : str) -> None:
     '''
     overwrite blank the note
+
+    Parameters:
+    path : str - the absolute-/path of the note to overwrite
     '''
     with open(path, 'w', encoding='utf-8') as f:
         f.write('')
