@@ -1,3 +1,5 @@
+#HACK use the pathlib to manage the path objects
+
 def note_is_empty(path : str) -> bool:
     '''
     check if the note is blank

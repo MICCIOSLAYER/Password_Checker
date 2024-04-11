@@ -17,6 +17,7 @@ def main(list_of_interest : list) -> str: # from a list of object get the passwo
     list_of_interest.insert(0, 'sha1') # insert the default protocol as first element
     protocol_selection = (list_of_interest[0].lower() == 'sha256') #to use the selection of sha256 or sha1 in pwned_API_check
 
+        #HACK use the pathlib to manage the path objects
     if os.path.exists(list_of_interest[1]): #in case the second term is a file: FIXME if is a non existent file it doesn't give FileNotFoundError
         try: # control if it is empty
             if path_for_safe.note_is_empty(list_of_interest[1]):
