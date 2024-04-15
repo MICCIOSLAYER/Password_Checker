@@ -1,0 +1,3 @@
+replace path object with pathlib objects. 
+use assertation and better testing online the path object.
+replace the sys.argv with argparse module.
