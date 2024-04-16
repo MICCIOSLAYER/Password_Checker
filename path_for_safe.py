@@ -1,4 +1,30 @@
 #HACK use the pathlib to manage the path objects
+import pathlib
+def txt_to_list(path : str ) -> list:
+    '''
+    get the path check if exists and return a list of passwords
+    
+    Parameters:
+    path : str - the absolute-/path of the note to check
+    '''
+    #txt_file = pathlib.Path(path) HACK?
+    #while(txt_file.exists()):
+    while True:
+        try:
+            txt_file = pathlib.Path(path)
+            with open(txt_file, 'r', encoding='utf-8') as f:
+                assert f.read() != '', 'the note is blank, no passwords are stored here'
+                passwords_list = f.read().splitlines()
+
+                return passwords_list
+        
+        except FileNotFoundError:
+            print(f'file {path} not found')
+            break
+        except 
+            
+    pass
+
 
 def note_is_empty(path : str) -> bool:
     '''
