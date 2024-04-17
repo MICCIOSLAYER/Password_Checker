@@ -7,7 +7,7 @@ def txt_to_list(path : str ) -> list:
     Parameters:
     path : str - the absolute-/path of the note to check
     '''
-
+    
     #txt_file = pathlib.Path(path) HACK?
     #while('txt' in path):
     try:
@@ -23,8 +23,10 @@ def txt_to_list(path : str ) -> list:
     
     except FileNotFoundError:
         print(f'file {path} not found')
-        break
-         
+        
+    except SyntaxError as e:
+        print(f'{e} in txt_to_list function')
+     
             
     pass
 
