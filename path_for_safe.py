@@ -1,4 +1,3 @@
-#HACK use the pathlib to manage the path objects
 import pathlib
 def txt_to_list(path : str ) -> list:
     '''
@@ -7,7 +6,7 @@ def txt_to_list(path : str ) -> list:
     Parameters:
     path : str - the absolute-/path of the note to check
     '''
-    
+
     #txt_file = pathlib.Path(path) HACK?
     #while('txt' in path):
     try:
@@ -35,12 +34,14 @@ def keep_passwords_safe(path : str) -> None:
     overwrite the file with a blanck note to keep safe your passrords
 
     Parameters:
-    path : pathlib.Path - the absolute-/path of the note to overwrite
+    path : str - the absolute-/path of the note to overwrite
     '''
+    assert path.exists(), f'file{path} not found in keep_passwords_safe function'
     try:            
         txt_file = pathlib.Path(path)
         absolute_txt_file = txt_file.resolve()
-        assert path.exists(), 'file not found'
+        assert absolute_txt_file.exists(), f'file{absolute_txt_file} not found in keep_passwords_safe function'
+        
         with open(absolute_txt_file, 'w', encoding='utf-8') as f:
             f.write('')
             f.close()
@@ -52,29 +53,38 @@ def keep_passwords_safe(path : str) -> None:
         print(f'{e} in keep_passwords_safe function')
 
 
-def note_is_empty(path : pathlib.Path) -> bool:
+def note_is_empty(path : str) -> bool:
     '''
     check if the note is blank
 
     Parameters:
-    path : pathlib.Path - the absolute-/path of the note to check
+    path : str - the absolute-/path of the note to check
     '''
+    assert path.exists(), 'file not found'
+    try:            
+        txt_file = pathlib.Path(path)
+        absolute_txt_file = txt_file.resolve()
+        assert absolute_txt_file.exists(), f'the path {absolute_txt_file} is incorrect'
+        with open(path, 'r', encoding='utf-8') as f:
+            if f.read() == '':
+                print('the note is blank, no passwords are stored here')
+                return True
+        return False 
+    except FileNotFoundError:
+        print(f'file {path} not found')
+    except SyntaxError as e:
+        print(f'{e} in note_is_empty function')
 
-    with open(path, 'r', encoding='utf-8') as f: # TODO test the encoding
-        if f.read() == '':
-            print('the note is blank, no passwords are stored here')
-            return True
-        else:
-            return False 
-
+'''
 def overwrite_blanck_note(path : str) -> None:
-    '''
+    
     overwrite blank the note
 
     Parameters:
     path : str - the absolute-/path of the note to overwrite
-    '''
+    
     with open(path, 'w', encoding='utf-8') as f:
         f.write('')
     print('the note is now blank, your passwords are safe')
     return None
+    '''
