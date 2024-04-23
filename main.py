@@ -4,7 +4,7 @@ import Reading_mode
 import os
 import sys
 import path_for_safe
-# ESECUZIONE DEL PROGRAMMA
+# ESECUZIONE DEL PROGRAMMA 1.0
 
 def main(list_of_interest : list) -> str: # from a list of object get the password to check and the protocol to use
     #Reading_mode.Description()
@@ -50,3 +50,4 @@ def main(list_of_interest : list) -> str: # from a list of object get the passwo
 
 if __name__ == '__main__' :
     sys.exit(main(sys.argv[1:]))
+
