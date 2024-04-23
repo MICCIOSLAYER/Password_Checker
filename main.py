@@ -1,53 +1,75 @@
-# -*- coding: utf-8 -*-
-import API_functions 
-import Reading_mode
-import os
-import sys
-import path_for_safe
-# ESECUZIONE DEL PROGRAMMA 1.0
+import argparse
+import manage_file
+import API_functions
+import Textuals
+import pathlib
+import getpass
 
-def main(list_of_interest : list) -> str: # from a list of object get the password to check and the protocol to use
-    #Reading_mode.Description()
-
-    while(len(list_of_interest) < 1): # to avoid indexing errors, NOTE when protocol selection is fixed 1->2
-        print('please insert the list of passwords or the <PATH> containing the passwords to check:')
-        list_of_interest = input().split(' ')
-        
-    file_path = False   # initialize to use as a flag
-    list_of_interest.insert(0, 'sha1') # insert the default protocol as first element
-    protocol_selection = (list_of_interest[0].lower() == 'sha256') #to use the selection of sha256 or sha1 in pwned_API_check
-
-        #HACK use the pathlib to manage the path objects
-    if os.path.exists(list_of_interest[1]): #in case the second term is a file: FIXME if is a non existent file it doesn't give FileNotFoundError
-        try: # control if it is empty
-            if path_for_safe.note_is_empty(list_of_interest[1]):
-                sys.exit('please insert some passwords to check in the file')
-            file_path = list_of_interest[1]
-            passwords_list = Reading_mode.read_from_file(file_path)
-        except FileNotFoundError:    # to not crush in case file is not found
-            sys.exit(f'file {file_path} not found')
-
-    else :
-        passwords_list = list_of_interest[1:]  # if not a path assume there's a list of passwords
-
+# ESECUZIONE DEL PROGRAMMA 2.0
+def main_execution(passwords_list : list, sha_protocol : bool)-> None: # a function to slim the code in main()
+    '''
+    Parameters:
+    passwords_list : list - the list of passwords to check
+    sha_protocol : bool - the protocol to use
+    '''
+    max_count = 0
     for password in passwords_list:
-
-        count = API_functions.conta_trapelate(API_functions.pwned_API_check(password, sha256=protocol_selection)) # int is required to avoid TypeError in max count
-        max_count = 0
-
+        count = API_functions.conta_trapelate(API_functions.pwned_API_check(password, sha256=sha_protocol))
+        max_count = max(max_count, count)
         if count:
-            max_count = max(max_count, count) # NOTE it is better to use a sum than a product?
-            print(f'\'{password}\' has been hacked {count} times, sha256 used? {protocol_selection}')    
+            print(f'\'{password}\' has been hacked {count} times')
         else:
             print(f'\'{password}\' is not been hacked')
+    if max_count:
+        Textuals.Suggestion_for_a_password(max_count)
 
-    Reading_mode.Suggestion_for_a_password(max_count)
 
-    if file_path:   # overwrite the file with a blanck note to keep safe your passrords
-        path_for_safe.overwrite_blanck_note(file_path)  
+
+
+def main():
+    # as default <name> <protocol as default sha1> <read_mode as default from a specified test> <passswlist or path> -> 
+    # if read mode is -l list getpass.getpass()
+    # if read mode is -f read from file put a default path to check, otherwise if specified add a path
+    parser = argparse.ArgumentParser(description='check the security of your passwords')
+
+    #protocol_type = parser.add_parsers(help='select the protocol to use', dest='protocol')
+
+    # to be used as default sha1_protocol = parser.add_parser('-sha1', help='use the sha1 protocol', action='store_true')
+
+    sha256_protocol = parser.add_argument('--sha256', help='use the sha256 protocol', action='store_true')
+    parser_pwcl = parser.add_argument('-cl' , '--listed', help='input the passwords here')
+    parser_file = parser.add_argument('-f' , '--from_file', help='input the path to password\'s file, remember to put a password per line in the file') 
+    default_execution = parser.add_argument('--default', help='use the default path to check the passwords')
+
+    args =  parser.parse_args()
+    sha_protocol = args.sha256
+    if sha_protocol: #since not tested yet
+        print('this option is not available yet, then the passwords will be checked with sha1 protocol')
+        sha_protocol = False
+
+    if args.listed: 
+        passwords_list = getpass.getpass(args.listed)
+
+        main_execution(passwords_list, sha_protocol)
+
+    if args.from_file:
+        file_path = pathlib.Path(args.from_file) 
+        passwords_list = manage_file.txt_to_list(file_path)
+        main_execution(passwords_list, sha_protocol)
+        manage_file.keep_passwords_safe(file_path)
+        assert manage_file.note_is_empty(file_path), 'the passwords are not safe'
+
+    if args.default:
+        default_path = manage_file.default_file_path()
+        passwords_list = manage_file.txt_to_list(default_path)
+        main_execution(passwords_list, sha_protocol)
+        manage_file.keep_passwords_safe(default_path)
+        assert manage_file.note_is_empty(default_path), 'the passwords are not safe'
+
     
-    return 'something else to check?'
+if __name__ == '__main__':
+    main()
+    
+    
 
-if __name__ == '__main__' :
-    sys.exit(main(sys.argv[1:]))
-
+        
