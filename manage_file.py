@@ -8,18 +8,19 @@ def txt_to_list(path : pathlib.Path ) -> list:
     Parameters:
     path : str - the absolute-/path of the note to check
     '''
-
+    
     #txt_file = pathlib.Path(path) HACK?
-    #while('txt' in path):
+    if 'txt' not in str(path): # to avoid the path of a pdf file...
+        print('the file is not a txt file')
+        
     try:
         txt_file = (path)
-        absolute_txt_file = txt_file.resolve() # get the absolute path to avoid duplicates
+        absolute_txt_file = txt_file.resolve() # get the absolute path to avoid duplicates FIXME control if the pathlib.Path object has method named resolve as well as following
         #assert absolute_txt_file.exists(), 'file not found'
         with open(absolute_txt_file, 'r', encoding='utf-8') as f:
             assert f.read() != '', 'the note is blank, no passwords are stored here'
             passwords_list = f.read().split()
             f.close()
-
             return passwords_list
     
     except FileNotFoundError:
@@ -40,15 +41,17 @@ def default_file_path() -> pathlib.Path:
             with open(desktop_path / 'default_list.txt', 'r+', encoding='utf-8') as b: #change as a modality to read and write code
                 if b.read() == '':
                     b.write(content)
+                    print('since non-existent, default file is now created')
                 b.close()
-            return (desktop_path / 'default_list.txt').resolve()
+            
         else:
             txt_file_default = desktop_path / 'default_list.txt' 
             absolute_default_path = txt_file_default.resolve()
             with open(txt_file_default, 'w', encoding='utf-8') as f:
                 f.write(content)
                 f.close()
-            return absolute_default_path
+            #return absolute_default_path
+        return (desktop_path / 'default_list.txt')
     except FileNotFoundError:
         print(f'file {txt_file_default} not found, choose another option')
     except SyntaxError as e:
@@ -98,17 +101,3 @@ def note_is_empty(path : pathlib.Path) -> bool:
         print(f'file {path} not found')
     except SyntaxError as e:
         print(f'{e} in note_is_empty function')
-
-'''
-def overwrite_blanck_note(path : str) -> None:
-    
-    overwrite blank the note
-
-    Parameters:
-    path : str - the absolute-/path of the note to overwrite
-    
-    with open(path, 'w', encoding='utf-8') as f:
-        f.write('')
-    print('the note is now blank, your passwords are safe')
-    return None
-    '''
