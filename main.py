@@ -12,16 +12,13 @@ def main_execution(passwords_list : list, sha_protocol : bool)-> None: # a funct
     passwords_list : list - the list of passwords to check
     sha_protocol : bool - the protocol to use
     '''
-    max_count = 0
     for password in passwords_list:
         count = API_functions.conta_trapelate(API_functions.pwned_API_check(password, sha256=sha_protocol))
-        max_count = max(max_count, count)
         if count:
             print(f'\'{password}\' has been hacked {count} times')
         else:
             print(f'\'{password}\' is not been hacked')
-    if max_count:
-        Textuals.Suggestion_for_a_password(max_count)
+    return None
 
 
 
@@ -37,9 +34,13 @@ def main():
     # to be used as default sha1_protocol = parser.add_parser('-sha1', help='use the sha1 protocol', action='store_true')
 
     sha256_protocol = parser.add_argument('--sha256', help='use the sha256 protocol', action='store_true')
-    parser_pwcl = parser.add_argument('-cl' , '--listed', help='input the passwords here')
-    parser_file = parser.add_argument('-f' , '--from_file', help='input the path to password\'s file, remember to put a password per line in the file') 
-    default_execution = parser.add_argument('--default', help='use the default path to check the passwords')
+
+    #reading_mode = parser.add_mutually_exclusive_group() #is it necessary?
+    parser_pwcl = parser.add_argument('-l' , '--listed', help='input the passwords here', action='store_true') #reading_mode?
+    parser_file = parser.add_argument('-f' , '--from_file', help='input the path to password\'s file, remember to put a password per line in the file') #reading_mode?
+    default_execution = parser.add_argument('-d', '--default_path', help='use the default path to check the passwords', action='store_true')
+
+    verification_parser = parser.add_argument('-v', '--verify', help='verify the code behaviour', action='store_true')
 
     args =  parser.parse_args()
     sha_protocol = args.sha256
@@ -48,8 +49,7 @@ def main():
         sha_protocol = False
 
     if args.listed: 
-        passwords_list = getpass.getpass(args.listed)
-
+        passwords_list = getpass.getpass(prompt='insert the passwords here, separated by space: ').split()
         main_execution(passwords_list, sha_protocol)
 
     if args.from_file:
@@ -59,12 +59,15 @@ def main():
         manage_file.keep_passwords_safe(file_path)
         assert manage_file.note_is_empty(file_path), 'the passwords are not safe'
 
-    if args.default:
+    if args.default_path:
         default_path = manage_file.default_file_path()
         passwords_list = manage_file.txt_to_list(default_path)
         main_execution(passwords_list, sha_protocol)
         manage_file.keep_passwords_safe(default_path)
         assert manage_file.note_is_empty(default_path), 'the passwords are not safe'
+
+    if args.verify:
+        main_execution(list(args.verify), sha_protocol=False)
 
     
 if __name__ == '__main__':
