@@ -1,3 +1,2 @@
-use getpass.getpass() to handle passwords inputs
-
-DONE: replace path object with pathlib objects. 
+resolve issues on pathlib object about the resolve method, assert the existent of default path object and try to write/read/notoverwrite a file with a defautl expressio
+resolve issues problems on manage_file.py file
