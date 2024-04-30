@@ -4,7 +4,6 @@ setup(
     name= 'Password_Checker',
     version= '0.1.0',
     packages= find_packages(),
-    package_dir= {'': 'Check_these_passwords'},
     entry_points= {
         'console_scripts': [
             'Check_this = Check_these_passwords.__main__:main' 

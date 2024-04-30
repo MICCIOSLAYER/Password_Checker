@@ -1,0 +1,2 @@
+[console_scripts]
+Check_this = Check_these_passwords.__main__:main
