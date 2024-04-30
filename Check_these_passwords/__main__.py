@@ -1,7 +1,7 @@
 import argparse
-import manage_file 
-import API_functions 
-import Textuals 
+from Check_these_passwords import manage_file 
+from Check_these_passwords import API_functions 
+from Check_these_passwords import Textuals 
 import pathlib
 import os
 from pathlib import Path
@@ -11,17 +11,18 @@ import getpass
 def main_execution(passwords_list : list, sha_protocol : bool)-> None: # a function to slim the code in main()
     '''
     Parameters:
-    passwords_list : list - the list of passwords to check
-    sha_protocol : bool - the protocol to use
+    - passwords_list : list - the list of passwords to check
+    - sha_protocol : bool - the protocol to use
     '''
-    assert len(passwords_list) > 0, 'the list is empty, no passwords to check'
-
-    for password in passwords_list:
-        count = API_functions.conta_trapelate(API_functions.pwned_API_check(password, sha256=sha_protocol))
-        if count:
-            print(f'\'{password}\' has been hacked {count} times')
-        else:
-            print(f'\'{password}\' is not been hacked')
+    if len(passwords_list) <= 0:
+        print('the list is empty, no passwords to check')
+    else:
+        for password in passwords_list:
+            count = API_functions.conta_trapelate(API_functions.pwned_API_check(password, sha256=sha_protocol))
+            if count:
+                print(f'\'{password}\' has been hacked {count} times')
+            else:
+                print(f'\'{password}\' is not been hacked')
     return None
 
 
@@ -29,7 +30,7 @@ def main_execution(passwords_list : list, sha_protocol : bool)-> None: # a funct
 
 def main():
 
-    desktop_path = pathlib.Path(os.path.expanduser("~/Desktop"))
+    desktop_path = pathlib.Path(os.path.expanduser("~/Desktop")) # put them in a config files?
     txt_file_default = desktop_path / 'default_list.txt'
     
     parser = argparse.ArgumentParser(description='check the security of your passwords')
@@ -40,7 +41,6 @@ def main():
     parser_file = reading_mode.add_argument('-f' , '--from_file', type=Path, help='input the path to password\'s file, remember to put a password per line in the file', default=txt_file_default) 
     parser_example = reading_mode.add_argument('-ex', '--example', help='use an example to show the program', action='store_true')
     
-
     verification_parser = parser.add_argument('-v', '--verify', help='verify the code behaviour', type=Path)
 
     args =  parser.parse_args()
@@ -54,11 +54,9 @@ def main():
         main_execution(passwords_list, sha_protocol)
 
     elif args.from_file:
-        file_path = pathlib.Path(args.from_file) 
-        passwords_list = manage_file.txt_to_list(file_path)
-        main_execution(passwords_list, sha_protocol)
-        manage_file.keep_passwords_safe(file_path)
-        assert manage_file.note_is_empty(file_path), 'the passwords are not safe'
+        main_execution(manage_file.txt_to_list(pathlib.Path(args.from_file) ), sha_protocol)
+        manage_file.keep_passwords_safe(pathlib.Path(args.from_file))
+        assert manage_file.note_is_empty(pathlib.Path(args.from_file)), 'the passwords are not safe'
 
     elif args.example:
         default_path = manage_file.default_file_path()
@@ -78,7 +76,7 @@ def main():
             testo = f.read()
             f.close()
         print(f'{testo} è il contenuto del file {txt_file}')
-        
+
 if __name__ == '__main__':
     main()
     

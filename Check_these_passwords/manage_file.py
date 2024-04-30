@@ -1,6 +1,7 @@
 import pathlib
 from pathlib import Path
 import os
+import warnings
 
 def txt_to_list(txt_file : pathlib.Path ) -> list: # FIXED
     '''
@@ -15,7 +16,7 @@ def txt_to_list(txt_file : pathlib.Path ) -> list: # FIXED
     try:
         with open(txt_file, 'r', encoding='utf-8') as f:
             passwords_list = f.read().split()
-            assert len(passwords_list) > 0, 'the note is blank, no passwords are stored here'
+            assert len(passwords_list) > 0, 'the note is blank, no passwords are stored here' # FIXME trasfrom it in a warning
             f.close()
             return passwords_list
     

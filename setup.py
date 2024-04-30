@@ -1,12 +1,17 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup( 
-    name= 'Check_these_passwords',
-    version= '1.0',
-    packages= ['folder_to_regroup_files'], # FIXME group the files in a unique directory
+    name= 'Password_Checker',
+    version= '0.1.0',
+    packages= find_packages(),
+    package_dir= {'': 'Check_these_passwords'},
     entry_points= {
         'console_scripts': [
-            'Check_these_passwords = folder_to_regroup_files.__main__:main' # FIXME pays attention here
+            'Check_this = Check_these_passwords.__main__:main' 
         ]
-    }
+    },
+    url='https://github.com/MICCIOSLAYER/Password_Checker.git',
+    author='Renato Eliasy',
+    author_email='renatoeliasy@gmail.com',
+    license='MIT'
 )
