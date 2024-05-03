@@ -36,7 +36,7 @@ def conta_trapelate(tupla : tuple) -> int:
 
     hashes = (line.split(':') for line in hashes.text.splitlines()) # get the count of violation from hashes
     for h, count in hashes:
-        if h == hash_to_check.upper(): # sometimes happens that the hash_to_check is in lower case
+        if h.upper() == hash_to_check.upper(): 
             return int(count)
     return 0 # as default return 0 if the password is not in the list ( dictionary)
 
@@ -48,17 +48,18 @@ def pwned_API_check(password : str, sha256=False) -> tuple: # sha256 is a flag t
     Parameters
     password : str - the password to convert 
     sha256 : bool - the flag to use the sha256 protocol or not
-    tuple([risposta, restanti]) : tuple - the tuple that contains the response from the API and the rest of the conversion
-
+    
+    tuple([answer, remaining]) : tuple - the tuple that contains the query to put into the API_web_site and the rest of the conversion to extract (through a match) the exact count of violations
+    the tuple division is necessary since the website API works in this way
     '''    
     sha1Pass = hashlib.sha1(password.encode('utf-8')).hexdigest()  # convert through sha1 for privacy reasons
-    primi5, restanti = sha1Pass[:5], sha1Pass[5:]  # separa i primi 5 caratteri della conversione dal resto
-    risposta = richiedi_dati_API(primi5)  # immagazzina i primi 5 caratteri della conversione nella risposta
+    to_put_into_api, match_by_list = sha1Pass[:5], sha1Pass[5:]  # separa i primi 5 caratteri della conversione dal resto
+    answer = richiedi_dati_API(to_put_into_api)  # immagazzina i primi 5 caratteri della conversione nella risposta
     
     if(sha256==True): # in case the protocol request is sha256
         sha256Pass = hashlib.sha256(password.encode('utf-8')).hexdigest()  
-        primi5, restanti = sha256Pass[:5], sha256Pass[5:]
-        risposta = richiedi_dati_API(primi5)
-        return tuple([risposta, restanti])
+        to_put_into_api, match_by_list = sha256Pass[:5], sha256Pass[5:]
+        answer = richiedi_dati_API(to_put_into_api)
+        return tuple([answer, match_by_list])
        
-    return tuple([risposta, restanti])  # need a tuple cause the order is important 
+    return tuple([answer, match_by_list])  # need a tuple cause the order is important 
