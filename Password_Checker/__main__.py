@@ -18,11 +18,13 @@ import sys
 
 #LOGGING CONFIGURATION
 logging.basicConfig(
-    level=logging.DEBUG, 
+    level=logging.WARNING, 
     filename='main_log.log',
     filemode='w', 
-    format='%(asctime)s - %(levelname)s - %(message)s', 
+    format='%(asctime)s - %(levelname)s - %(name)s -> %(funcName)s : %(message)s', 
     encoding='utf-8')
+
+logger_main = logging.getLogger(__name__)
 
 # PROGRAM EXECUTION 2.0
 def core_execution(
@@ -57,12 +59,7 @@ def core_execution(
 
 
 def main():
-    logging.basicConfig(filename='mainlog.log',
-                        level=logging.ERROR,
-                        format='%(asctime)s %(levelname)-8s - %(name)s : %(funcName)s %(message)s',
-                        datefmt='%Y-%m-%D %H:%M:%S')
-    #logger = logging.getLogger(__name__)
-
+    #PARSER CONFIGURATION
     parser = argparse.ArgumentParser(description='check the reliability of your passwords')
 
     sha256_protocol = parser.add_argument(
@@ -96,24 +93,22 @@ def main():
         default=None) 
 
     args =  parser.parse_args()
-    logging.debug(f'\nargs: {args} \n')
-    logging.debug(f'\nargs.verify: {args.verify} \nargs.example: {args.example}  \nargs.from_here: {args.from_here} \nargs.sha256: {args.sha256}\nargs.from_file: {args.from_file}')
+    #logger_main.debug(f'\nargs: {args} \n')
+    #logger_main.debug(f'\nargs.verify: {args.verify} \nargs.example: {args.example}  \nargs.from_here: {args.from_here} \nargs.sha256: {args.sha256}\nargs.from_file: {args.from_file}')
     
     sha_protocol = args.sha256
     if sha_protocol: 
-        logging.warning('not available yet, then checked using sha1 protocol')
+        logger_main.warning('not available yet, then checked using sha1 protocol')
         
-
-
     if args.example:
         core_execution(manage_file.txt_to_list(manage_file.example_file()), sha_protocol)
-        logging.info('this is a fixed example no need to keep safe the passwords')
+        logger_main.info('this is a fixed example no need to keep safe the passwords')
         sys.exit() 
 
     elif args.from_here: 
         passwords_list = getpass.getpass(prompt='insert the passwords here, separated by space (then ENTER): ').split()
         core_execution(passwords_list, sha_protocol)
-        logging.debug(f'the passwords_list is a type: {type(passwords_list)}')
+        logger_main.debug(f'the passwords_list is a type: {type(passwords_list)}')
         sys.exit()
         
 

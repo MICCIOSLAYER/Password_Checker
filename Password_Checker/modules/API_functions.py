@@ -10,6 +10,9 @@ import hashlib
 import logging
 from requests.exceptions import HTTPError
 
+#CONFIGURATION OF LOGGING
+logger_API = logging.getLogger(__name__)
+
 
 def richiedi_dati_API(query : any) -> requests.Response : # TODO change the name  in get_response_from_API
     '''
@@ -26,12 +29,15 @@ def richiedi_dati_API(query : any) -> requests.Response : # TODO change the name
         response.raise_for_status() # raise an error if the status code is not 200 HACK x test use a mock response HOWTO?
         
     except HTTPError:
-        logging.exception(f'HTTPError: the query {query} has raised an error {response.status_code}') # TODO to be formatted
+        logger_API.exception(f'HTTPError: the query {query} has raised an error {response.status_code}') 
         if response.status_code in [400, 401, 403, 404]:
+            logger_API.error(f'Client error')
             return 'Client error, verify your connection & account and retry later'
         elif response.status_code == 429:
+            logger_API.error(f'Client error')
             return 'Client error: Too many requests, please split the file/list and retry'
         elif response.status_code == 503:
+            logger_API.error(f'Server error')
             return 'Server error: Service Unavaiable, please retry later'
         elif (response.status_code in range(100, 200) or response.status_code in range(300, 601)):
             return 'Unexpected Error, for more information check the logs and visit the website: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#redirection_messages'
@@ -58,12 +64,12 @@ def conta_trapelate(tupla : tuple) -> int:
     # body of try:
     hashes = tupla[0] 
     hash_to_check = tupla[1]
-    # TODO if hashes is a number, return the negative value associated
+    
     hashes = (line.split(':') for line in hashes.text.splitlines()) # get the count of violation from hashes
     for h, count in hashes:
-        if h == hash_to_check: # HACK? REMOVED the upper() since the API response is already in uppercase
+        if h == hash_to_check: 
             return int(count)
-    return 0 # as default return 0 if the password is not in the list, means it's not been searched yet
+    return 0 # not found = not violated
 
 def pwned_API_check( password : str, sha256=False ) -> tuple: #  HACK control the rest of code considering the added parameter server_response : requests.Response,..
     '''
@@ -78,11 +84,11 @@ def pwned_API_check( password : str, sha256=False ) -> tuple: #  HACK control th
     '''    
     sha1Pass = hashlib.sha1(password.encode('utf-8')).hexdigest().upper()  
     to_put_into_api, match_by_list = sha1Pass[:5], sha1Pass[5:]  
-    answer = richiedi_dati_API(to_put_into_api)  # since the url request the first 5 @@@@@ of conversion to get the list of hashes violated TODO set answer = server_response
+    answer = richiedi_dati_API(to_put_into_api)  # since the url request the first 5 @@@@@ of conversion to get the list of hashes violated HACK set answer = server_response
     
     if sha256 == True: 
         sha256pass = hashlib.sha256(password.encode('utf-8').hexdigest()).upper()                
         to_put_into_api, match_by_list = sha256pass[:5], sha256pass[5:]
-        answer = richiedi_dati_API(to_put_into_api) # TODO in future rewrite to avoid in-call
+        answer = richiedi_dati_API(to_put_into_api) # HACK in future rewrite to avoid in-call
        
     return tuple([answer, match_by_list])  
