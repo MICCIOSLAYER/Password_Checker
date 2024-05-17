@@ -9,7 +9,6 @@ import pathlib
 from pathlib import Path
 import os
 import logging
-import io
 
 
 def txt_to_list(txt_file : pathlib.Path ) -> list[str]: # FIXED
@@ -22,7 +21,7 @@ def txt_to_list(txt_file : pathlib.Path ) -> list[str]: # FIXED
     
         
     try:
-        if str(txt_file)[-4:]  != '.txt': # test scripted
+        if str(txt_file)[-4:]  != '.txt': 
             logging.critical(f'{txt_file} is not a txt file')
             raise TypeError('this is not a txt file')
         with open(txt_file, 'r', encoding='utf-8', errors='strict') as f: # to avoid unreadable character use a default encoding depending on your pc? or better to use utf-8
