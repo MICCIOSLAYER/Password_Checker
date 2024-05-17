@@ -11,7 +11,7 @@ import os
 import logging
 
 logger_file = logging.getLogger(__name__)
-
+ 
 
 def txt_to_list(txt_file : pathlib.Path ) -> list[str]: # FIXED
     '''

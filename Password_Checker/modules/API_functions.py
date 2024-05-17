@@ -31,16 +31,17 @@ def richiedi_dati_API(query : any) -> requests.Response : # TODO change the name
     except HTTPError:
         logger_API.exception(f'HTTPError: the query {query} has raised an error {response.status_code}') 
         if response.status_code in [400, 401, 403, 404]:
-            logger_API.error(f'Client error')
-            return 'Client error, verify your connection & account and retry later'
+            logger_API.error(f'Client error: verify your connection & account and retry later')
+            return 'Client error'
         elif response.status_code == 429:
-            logger_API.error(f'Client error')
-            return 'Client error: Too many requests, please split the file/list and retry'
+            logger_API.error(f'Client error: Too many requests, please split the file/list and retry')
+            return 'Client error'
         elif response.status_code == 503:
-            logger_API.error(f'Server error')
-            return 'Server error: Service Unavaiable, please retry later'
+            logger_API.error(f'Server error: Service Unavaiable, please retry later')
+            return 'Server error'
         elif (response.status_code in range(100, 200) or response.status_code in range(300, 601)):
-            return 'Unexpected Error, for more information check the logs and visit the website: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#redirection_messages'
+            logger_API.error(f'For more information check the logs and visit the website: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#redirection_messages')
+            return 'Unexpected Error'
     else:
         if response.ok: # between 200 and 299 
             return response

@@ -12,7 +12,7 @@ import random
 import responses
 import hashlib
 from Password_Checker.modules.API_functions import richiedi_dati_API, conta_trapelate, pwned_API_check
-
+import logging
 
 # testing the API_functions module
 class Test_API_Module_right_work(unittest.TestCase):
@@ -31,7 +31,7 @@ class Test_API_Module_right_work(unittest.TestCase):
         response = richiedi_dati_API(converted_pass[:5])
         self.assertEqual(response.status_code, 200)
         
-
+    
     @responses.activate
     def test_richiedi_dati_API_response_content(self): # test the response type assertRaises or assertEqual depending on the type of response
         query = 'hello' # fix using hash1[:5] as query
@@ -43,6 +43,7 @@ class Test_API_Module_right_work(unittest.TestCase):
         )
         response = richiedi_dati_API(converted_pass[:5])
         self.assertEqual(response.text, '000AB2DEE342D579F6FE914C85B9CF98EDE:5\r\n003EC0930A89382B60E0C012A0F916AC33F:1\r\n0059D41E74575F8580A0687D1791E9B313F:23\r\n61DDCC5E8A2DABEDE0F3B482CD9AEA9434D:273646')
+
 
     # TEST conta_trapelate-----------------------------------------------------
     @responses.activate
@@ -155,8 +156,22 @@ class Test_API_Module_fails(unittest.TestCase):
             status=303
         )
         response = richiedi_dati_API(converted_pass[:5])
-        
         self.assertEqual(response.status_code, 303)
+
+class Test_API_Module_logs(unittest.TestCase):
+    #TEST LOGS****************************************************************
+    @responses.activate
+    def test_richiedi_dati_API_response_content(self): # test the response type assertRaises or assertEqual depending on the type of response
+        query = 'hello' # fix using hash1[:5] as query
+        converted_pass = hashlib.sha1(query.encode('utf-8')).hexdigest().upper()
+        responses.get(
+            url='https://api.pwnedpasswords.com/range/' + converted_pass[:5],
+            status=400)
+        print(richiedi_dati_API(converted_pass[:5]))
+        '''with self.assertLogs(logger=logging.getLogger(__name__), level=logging.DEBUG) as cm:
+            richiedi_dati_API(converted_pass[:5])
+        print(cm.output[0])
+        self.assertIn('HTTPError', cm.output[0])'''
         
 class Test_API_Module_combined(unittest.TestCase):
     # use a multiple called from a multiple responses
