@@ -5,4 +5,14 @@ Home-page: https://github.com/MICCIOSLAYER/Password_Checker.git
 Author: Renato Eliasy
 Author-email: renatoeliasy@gmail.com
 License: MIT
+Requires: requests
+Requires: hashlib
+Requires: sys
+Requires: os
+Requires: re
+Requires: argparse
+Requires: response
+Requires: pathlib
+Requires: getpass
+Requires: logging
 License-File: LICENSE

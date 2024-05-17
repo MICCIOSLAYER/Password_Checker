@@ -1,0 +1,5 @@
+add a logging system and test input
+add a config.txt file to group and dry the code
+update the readme.md
+
+
