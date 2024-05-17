@@ -26,6 +26,7 @@ def richiedi_dati_API(query : any) -> requests.Response : # TODO change the name
         response.raise_for_status() # raise an error if the status code is not 200 HACK x test use a mock response HOWTO?
         
     except HTTPError:
+        logging.exception(f'HTTPError: the query {query} has raised an error {response.status_code}') # TODO to be formatted
         if response.status_code in [400, 401, 403, 404]:
             return 'Client error, verify your connection & account and retry later'
         elif response.status_code == 429:
@@ -33,7 +34,6 @@ def richiedi_dati_API(query : any) -> requests.Response : # TODO change the name
         elif response.status_code == 503:
             return 'Server error: Service Unavaiable, please retry later'
         elif (response.status_code in range(100, 200) or response.status_code in range(300, 601)):
-            logging.critical(f' the query {query} has raised an error {response.status_code}')
             return 'Unexpected Error, for more information check the logs and visit the website: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#redirection_messages'
     else:
         if response.ok: # between 200 and 299 
@@ -80,10 +80,9 @@ def pwned_API_check( password : str, sha256=False ) -> tuple: #  HACK control th
     to_put_into_api, match_by_list = sha1Pass[:5], sha1Pass[5:]  
     answer = richiedi_dati_API(to_put_into_api)  # since the url request the first 5 @@@@@ of conversion to get the list of hashes violated TODO set answer = server_response
     
-    if sha256 == True: # the site not support the sha256 protocol yet
-        logging.debug('the sha256 protocol is not supported yet, the sha1 protocol will be used')
+    if sha256 == True: 
         sha256pass = hashlib.sha256(password.encode('utf-8').hexdigest()).upper()                
         to_put_into_api, match_by_list = sha256pass[:5], sha256pass[5:]
-        answer = richiedi_dati_API(to_put_into_api) # TODO rewrite the parameter of this function to get the answer as one of its parameters
+        answer = richiedi_dati_API(to_put_into_api) # TODO in future rewrite to avoid in-call
        
-    return tuple([answer, match_by_list])  # need a tuple cause the order is important 
+    return tuple([answer, match_by_list])  

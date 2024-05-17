@@ -58,10 +58,10 @@ def core_execution(
 
 def main():
     logging.basicConfig(filename='mainlog.log',
-                        level=logging.INFO,
-                        format='%(asctime)s %(levelname)-8s %(name)s - %(funcName)s: %(message)s',
+                        level=logging.ERROR,
+                        format='%(asctime)s %(levelname)-8s - %(name)s : %(funcName)s %(message)s',
                         datefmt='%Y-%m-%D %H:%M:%S')
-    logger = logging.getLogger(__name__)
+    #logger = logging.getLogger(__name__)
 
     parser = argparse.ArgumentParser(description='check the reliability of your passwords')
 
