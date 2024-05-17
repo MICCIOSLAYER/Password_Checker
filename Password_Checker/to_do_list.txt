@@ -1,4 +1,11 @@
 add a logging system and test input
+    add logging.exception('msg') <- logging.error to handling logging in exception 
+    custom log in different files:
+        logger= logging.getLogger(__name__) to get a logging name specific for the module in which it is defined;
+        once created a logger better to use handler to specify the new file.log to put the log inherent this module handler = logging.FileHandler('nome_modulo.log')
+        then the format w formatter = logging.Formatter(' - %(name)s...') to get also the name of the module use also %(func) to get the name of the function in which called
+        handler.setFormatter(formatter)
+        handler.setFormatter(handler)
 add a config.txt file to group and dry the code
 update the readme.md
 
