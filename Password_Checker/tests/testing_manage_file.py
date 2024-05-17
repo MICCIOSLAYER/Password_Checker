@@ -23,6 +23,10 @@ class Test_File_Module_single_successes(utt.TestCase):
         for password in the_list:
             self.assertEqual(type(password), str)   
     
+    def test_not_txt_to_list(self): # to be tested
+        the_list = mf.txt_to_list('not_txt_file.docx')
+        self.assertRaises(TypeError, the_list)
+
     def test_txt_to_list_return(self): # TESTED OK 
         the_list = ['password1', 'password2', 'password3']
         content = 'password1\npassword2 password3'
@@ -39,7 +43,7 @@ class Test_File_Module_single_successes(utt.TestCase):
     def test_default_file_path_existence_isFile(self): # TESTED OK 5°
         the_path = mf.default_file_path()
         self.assertTrue(Path(the_path).is_file)
-        self.assertTrue('.txt' in str(the_path)) # HACK use a regex?
+        self.assertIn('.txt',str(the_path)) # HACK use a regex?
     
     def test_default_file_path_existence_(self): # TESTED OK 6°
         the_path = mf.default_file_path()

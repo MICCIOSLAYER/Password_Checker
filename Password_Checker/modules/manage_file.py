@@ -9,6 +9,7 @@ import pathlib
 from pathlib import Path
 import os
 import logging
+import sys
 
 
 def txt_to_list(txt_file : pathlib.Path ) -> list[str]: # FIXED
@@ -18,8 +19,7 @@ def txt_to_list(txt_file : pathlib.Path ) -> list[str]: # FIXED
     Parameters:
     path : str - the absolute-path of the note from which to get the passwords
     '''
-    
-        
+     
     try:
         if str(txt_file)[-4:]  != '.txt': 
             logging.critical(f'{txt_file} is not a txt file')
@@ -29,12 +29,11 @@ def txt_to_list(txt_file : pathlib.Path ) -> list[str]: # FIXED
                 f.close()
                 if len(passwords_list) == 0:
                     logging.warning('no passwords are stored here')
-    except TypeError: # test scripted
+    except TypeError: 
         return 'this is not a txt file'
-    except FileNotFoundError: # test scripted
+    except FileNotFoundError: 
         logging.critical(f'file {txt_file} not found')
         return 'file not found'
-
     except ValueError as e: # if a decoding error occurs open(error=strict by default) raise a ValueError
         logging.critical(f'{e} use a UTF-8 encoded file to store your passwords')
         return 'Unreadable file, assure to use a UTF-8 encoded file to store your passwords'

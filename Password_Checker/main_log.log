@@ -1,24 +1,17 @@
-2024-05-17 12:10:34,432 - INFO - this is a default_path list of passwords: C:\Users\gioco\Desktop\default_list.txt
-2024-05-17 12:10:34,432 - DEBUG - 
-args: Namespace(sha256=True, from_here=False, example=False, from_file=WindowsPath('C:/Users/gioco/Desktop/default_list.txt'), verify=None) 
+2024-05-17 14:42:23,009 - INFO - this is a default_path list of passwords: C:\Users\gioco\Desktop\default_list.txt
+2024-05-17 14:42:23,010 - DEBUG - 
+args: Namespace(sha256=False, from_here=True, example=False, from_file=WindowsPath('C:/Users/gioco/Desktop/default_list.txt'), verify=None) 
 
-2024-05-17 12:10:34,432 - DEBUG - 
+2024-05-17 14:42:23,010 - DEBUG - 
 args.verify: None 
 args.example: False  
-args.from_here: False 
-args.sha256: True
+args.from_here: True 
+args.sha256: False
 args.from_file: C:\Users\gioco\Desktop\default_list.txt
-2024-05-17 12:10:34,432 - WARNING - not available yet, then checked using sha1 protocol
-2024-05-17 12:10:34,437 - DEBUG - Starting new HTTPS connection (1): api.pwnedpasswords.com:443
-2024-05-17 12:10:34,733 - DEBUG - https://api.pwnedpasswords.com:443 "GET /range/1E4E8 HTTP/1.1" 200 None
-2024-05-17 12:10:34,740 - DEBUG - Starting new HTTPS connection (1): api.pwnedpasswords.com:443
-2024-05-17 12:10:35,048 - DEBUG - https://api.pwnedpasswords.com:443 "GET /range/03ADB HTTP/1.1" 200 None
-2024-05-17 12:10:35,053 - DEBUG - Starting new HTTPS connection (1): api.pwnedpasswords.com:443
-2024-05-17 12:10:35,363 - DEBUG - https://api.pwnedpasswords.com:443 "GET /range/27A71 HTTP/1.1" 200 None
-2024-05-17 12:10:35,368 - DEBUG - Starting new HTTPS connection (1): api.pwnedpasswords.com:443
-2024-05-17 12:10:35,641 - DEBUG - https://api.pwnedpasswords.com:443 "GET /range/BD15F HTTP/1.1" 200 None
-2024-05-17 12:10:35,647 - DEBUG - Starting new HTTPS connection (1): api.pwnedpasswords.com:443
-2024-05-17 12:10:35,967 - DEBUG - https://api.pwnedpasswords.com:443 "GET /range/86F7E HTTP/1.1" 200 None
-2024-05-17 12:10:35,976 - DEBUG - Starting new HTTPS connection (1): api.pwnedpasswords.com:443
-2024-05-17 12:10:36,442 - DEBUG - https://api.pwnedpasswords.com:443 "GET /range/F20A7 HTTP/1.1" 200 None
-2024-05-17 12:10:36,446 - INFO - the note is now blank, your passwords are safe
+2024-05-17 14:42:28,640 - DEBUG - Starting new HTTPS connection (1): api.pwnedpasswords.com:443
+2024-05-17 14:42:29,217 - DEBUG - https://api.pwnedpasswords.com:443 "GET /range/A91D9 HTTP/1.1" 200 None
+2024-05-17 14:42:29,226 - DEBUG - Starting new HTTPS connection (1): api.pwnedpasswords.com:443
+2024-05-17 14:42:29,819 - DEBUG - https://api.pwnedpasswords.com:443 "GET /range/8B801 HTTP/1.1" 200 None
+2024-05-17 14:42:29,834 - DEBUG - Starting new HTTPS connection (1): api.pwnedpasswords.com:443
+2024-05-17 14:42:30,514 - DEBUG - https://api.pwnedpasswords.com:443 "GET /range/28715 HTTP/1.1" 200 None
+2024-05-17 14:42:30,526 - INFO - the passwords_list is a type: <class 'list'>

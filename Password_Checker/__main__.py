@@ -34,9 +34,15 @@ def core_execution(
     - passwords_list : list - the list of passwords to check
     - sha_protocol : bool - the protocol to use
     '''
-    # 
+    
+    if type(passwords_list) != list:
+        print('TypeError : the input is not a list, for more information check the main_log.log file')
+        sys.exit()
+    
     if len(passwords_list) <= 0:
         print('the list is empty, no passwords to check')
+        sys.exit()
+
     else:
         sha_protocol = False # when implemented use remove this line
         for password in passwords_list:
@@ -55,7 +61,8 @@ def main():
                         level=logging.INFO,
                         format='%(asctime)s %(levelname)-8s %(name)s - %(funcName)s: %(message)s',
                         datefmt='%Y-%m-%D %H:%M:%S')
- 
+    logger = logging.getLogger(__name__)
+
     parser = argparse.ArgumentParser(description='check the reliability of your passwords')
 
     sha256_protocol = parser.add_argument(
@@ -106,6 +113,7 @@ def main():
     elif args.from_here: 
         passwords_list = getpass.getpass(prompt='insert the passwords here, separated by space (then ENTER): ').split()
         core_execution(passwords_list, sha_protocol)
+        logging.debug(f'the passwords_list is a type: {type(passwords_list)}')
         sys.exit()
         
 
@@ -114,7 +122,7 @@ def main():
         print(f'all\'interno di args.verify vi è assegnato il valore : {args.verify} ')
         sys.exit() #FIXED?
 
-    
+
     elif args.from_file:  #  It has to be at the end to avoid the execution of the default file 
         the_file = Path(args.from_file)
         core_execution(manage_file.txt_to_list(the_file), sha_protocol) # when implemented use sha_protocol
