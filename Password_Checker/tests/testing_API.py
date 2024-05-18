@@ -158,8 +158,11 @@ class Test_API_Module_fails(unittest.TestCase):
         response = richiedi_dati_API(converted_pass[:5])
         self.assertEqual(response.status_code, 303)
 
+
+#TEST LOGS****************************************************************
+@unittest.skip('not implemented yet')
 class Test_API_Module_logs(unittest.TestCase):
-    #TEST LOGS****************************************************************
+
     @responses.activate
     def test_richiedi_dati_API_response_content(self): # test the response type assertRaises or assertEqual depending on the type of response
         query = 'hello' # fix using hash1[:5] as query
@@ -167,12 +170,14 @@ class Test_API_Module_logs(unittest.TestCase):
         responses.get(
             url='https://api.pwnedpasswords.com/range/' + converted_pass[:5],
             status=400)
-        print(richiedi_dati_API(converted_pass[:5]))
-        '''with self.assertLogs(logger=logging.getLogger(__name__), level=logging.DEBUG) as cm:
+        richiedi_dati_API(converted_pass[:5])
+        with self.assertLogs(logger='root' ,level=logging.DEBUG) as cm:
             richiedi_dati_API(converted_pass[:5])
         print(cm.output[0])
-        self.assertIn('HTTPError', cm.output[0])'''
-        
+        self.assertIn('HTTPError', cm.output[0])
+        pass
+
+
 class Test_API_Module_combined(unittest.TestCase):
     # use a multiple called from a multiple responses
     #use the query as distinctive element, as for query in list : base_url + query, then get response from leaked_count(query) and check
