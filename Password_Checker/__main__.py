@@ -16,15 +16,20 @@ import getpass
 import logging
 import sys
 
-#LOGGING CONFIGURATION
-logging.basicConfig(
-    level=logging.WARNING, 
-    filename='main_log.log',
+#LOGGING CONFIGURATION -> FIXME use a dictconfig to configure the loggers
+logging.basicConfig( # IN BASIC all the logs are captured independently of getLoggers...
+    level=logging.DEBUG, 
+    filename='logs/all_info_on.log', # and so in try_on_log
     filemode='w', 
     format='%(asctime)s - %(levelname)s - %(name)s -> %(funcName)s : %(message)s', 
     encoding='utf-8')
 
-logger_main = logging.getLogger(__name__)
+logger = logging.getLogger('fixed')
+formatter = logging.Formatter('%(name)s - %(levelname)s : %(message)s')
+handler = logging.FileHandler('logs/logger_main.log', encoding='utf-8', mode='w')
+handler.setFormatter(formatter)
+logger.addHandler(handler)
+logger.setLevel(logging.DEBUG)
 
 # PROGRAM EXECUTION 2.0
 def core_execution(
@@ -38,7 +43,7 @@ def core_execution(
     '''
     
     if type(passwords_list) != list:
-        print('TypeError : the input is not a list, for more information check the main_log.log file')
+        print('TypeError : the input is not a list, for more information check the log file')
         sys.exit()
     
     if len(passwords_list) <= 0:
@@ -61,6 +66,8 @@ def core_execution(
 def main():
     #PARSER CONFIGURATION
     parser = argparse.ArgumentParser(description='check the reliability of your passwords')
+
+    
 
     sha256_protocol = parser.add_argument(
         '--sha256', 
@@ -98,17 +105,17 @@ def main():
     
     sha_protocol = args.sha256
     if sha_protocol: 
-        logger_main.warning('not available yet, then checked using sha1 protocol')
+        logging.warning('not available yet, then checked using sha1 protocol')
         
     if args.example:
         core_execution(manage_file.txt_to_list(manage_file.example_file()), sha_protocol)
-        logger_main.info('this is a fixed example no need to keep safe the passwords')
+        logging.info('this is a fixed example no need to keep safe the passwords')
         sys.exit() 
 
     elif args.from_here: 
         passwords_list = getpass.getpass(prompt='insert the passwords here, separated by space (then ENTER): ').split()
         core_execution(passwords_list, sha_protocol)
-        logger_main.debug(f'the passwords_list is a type: {type(passwords_list)}')
+        logging.info('the passwords are not stored')
         sys.exit()
         
 
