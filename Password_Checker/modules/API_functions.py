@@ -11,7 +11,7 @@ import logging
 from requests.exceptions import HTTPError
 
 #CONFIGURATION OF LOGGING
-logger_API = logging.getLogger(__name__)
+
 
 
 def richiedi_dati_API(query : any) -> requests.Response : # TODO change the name  in get_response_from_API
@@ -26,25 +26,28 @@ def richiedi_dati_API(query : any) -> requests.Response : # TODO change the name
         query_str = str(query) # HACK?  CONVERT HERE to avoid the pwned API
         url = 'https://api.pwnedpasswords.com/range/' + query_str
         response = requests.get(url, timeout=5)
-        response.raise_for_status() # raise an error if the status code is not 200 HACK x test use a mock response HOWTO?
+        #response.raise_for_status() # raise an error if the status code is not 200 HACK x test use a mock response HOWTO?
         
     except HTTPError:
-        logger_API.exception(f'HTTPError: the query {query} has raised an error {response.status_code}') 
+        logging.exception(f'HTTPError: the query {query} has raised an error {response.status_code}') 
         if response.status_code in [400, 401, 403, 404]:
-            logger_API.error(f'Client error: verify your connection & account and retry later')
+            logging.error(f'Client error: verify your connection & account and retry later')
             return 'Client error'
         elif response.status_code == 429:
-            logger_API.error(f'Client error: Too many requests, please split the file/list and retry')
+            logging.error(f'Client error: Too many requests, please split the file/list and retry')
             return 'Client error'
         elif response.status_code == 503:
-            logger_API.error(f'Server error: Service Unavaiable, please retry later')
+            logging.error(f'Server error: Service Unavaiable, please retry later')
             return 'Server error'
         elif (response.status_code in range(100, 200) or response.status_code in range(300, 601)):
-            logger_API.error(f'For more information check the logs and visit the website: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#redirection_messages')
+            logging.error(f'For more information check the logs and visit the website: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#redirection_messages')
             return 'Unexpected Error'
     else:
         if response.ok: # between 200 and 299 
             return response
+    finally:
+        if  not response.ok:
+            logging.error(f'HTTPError: the query {query} has raised an error {response.status_code}') 
     
 
 
