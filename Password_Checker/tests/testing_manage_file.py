@@ -52,12 +52,10 @@ class Test_File_Module_single_successes(utt.TestCase):
     def test_default_file_path_content_just_created(self):  # TESTED OK 7°
         if os.path.exists(mf.default_file_path()):
             os.remove(mf.default_file_path())  
-
         the_path = mf.default_file_path()
         with open(the_path, 'r', encoding='utf-8') as f:
             content = f.read() 
             f.close()
-
         self.assertEqual(content , 'D_default_path4 these@password isins1de thi5Pc')
         self.assertNotEqual(Path(the_path).stat().st_size, 0)
     
@@ -138,7 +136,7 @@ class Test_File_Module_single_failures(utt.TestCase):
 
         pass # has to be skipped, as the encoding is not important for txt files
 
-def test_keep_passwords_safe_not_existing_file(self): # TESTED OK 
+    def test_keep_passwords_safe_not_existing_file(self): # TESTED OK 
         the_non_existing_file = Path.home() / 'non_existing_file.txt'
         if os.path.exists(the_non_existing_file):
             os.remove(the_non_existing_file)
@@ -163,14 +161,14 @@ class Test_File_Module_combined_successes(utt.TestCase):
             blank_file =f.read()
             f.close()
 
-        self.assertEqual(blank_file, '')
-        
+        self.assertEqual(blank_file, '') # be sure that the file is empty
+        # test if the file is overwritten as default_file_path should do
         mf.default_file_path()
-        with open(mf.default_file_path(), 'r', encoding='utf-8') as f: # test if the file is overwritten as default_file_path should do
+        with open(mf.default_file_path(), 'r', encoding='utf-8') as f: 
             content = f.read()
             f.close()
 
-            self.assertEqual(content, 'D_default_path4 these@password isins1de thi5Pc')
+        self.assertEqual(content, 'D_default_path4 these@password isins1de thi5Pc')
         
 
 
