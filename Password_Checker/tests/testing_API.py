@@ -6,20 +6,17 @@ __author__ = 'Renato Eliasy'
 __email__ = 'renato.eliasy@studio.unibo.it'
 
 import unittest
-from unittest.mock import Mock, patch, MagicMock
-import requests
 import random
 import responses
 import hashlib
-from Password_Checker.modules.API_functions import richiedi_dati_API, conta_trapelate, pwned_API_check
-import logging
+from Password_Checker.modules.API_functions import API_response, leaked_count, pwned_API_check
 
 # testing the API_functions module
 class Test_API_Module_right_work(unittest.TestCase):
   
     # TEST richiedi_dati_API-----------------------------------------------------
     @responses.activate
-    def test_richiedi_dati_API_status_code(self): # test the response type assertRaises or assertEqual depending on the type of response
+    def test_API_response_status_code(self): # test the response type assertRaises or assertEqual depending on the type of response
         query = 'hello' # fix using hash1[:5] as query
         converted_pass = hashlib.sha1(query.encode('utf-8')).hexdigest().upper()
 
@@ -28,12 +25,12 @@ class Test_API_Module_right_work(unittest.TestCase):
             body='000AB2DEE342D579F6FE914C85B9CF98EDE:5\r\n003EC0930A89382B60E0C012A0F916AC33F:1\r\n0059D41E74575F8580A0687D1791E9B313F:23\r\n61DDCC5E8A2DABEDE0F3B482CD9AEA9434D:273646', # a part of the response.text 
             status=200
         )
-        response = richiedi_dati_API(converted_pass[:5])
+        response = API_response(converted_pass[:5])
         self.assertEqual(response.status_code, 200)
         
     
     @responses.activate
-    def test_richiedi_dati_API_response_content(self): # test the response type assertRaises or assertEqual depending on the type of response
+    def test_API_response_content(self): # test the response type assertRaises or assertEqual depending on the type of response
         query = 'hello' # fix using hash1[:5] as query
         converted_pass = hashlib.sha1(query.encode('utf-8')).hexdigest().upper()
         responses.get(
@@ -41,7 +38,7 @@ class Test_API_Module_right_work(unittest.TestCase):
             body='000AB2DEE342D579F6FE914C85B9CF98EDE:5\r\n003EC0930A89382B60E0C012A0F916AC33F:1\r\n0059D41E74575F8580A0687D1791E9B313F:23\r\n61DDCC5E8A2DABEDE0F3B482CD9AEA9434D:273646', # a part of the response.text 
             status=200
         )
-        response = richiedi_dati_API(converted_pass[:5])
+        response = API_response(converted_pass[:5])
         self.assertEqual(response.text, '000AB2DEE342D579F6FE914C85B9CF98EDE:5\r\n003EC0930A89382B60E0C012A0F916AC33F:1\r\n0059D41E74575F8580A0687D1791E9B313F:23\r\n61DDCC5E8A2DABEDE0F3B482CD9AEA9434D:273646')
 
 
@@ -56,11 +53,11 @@ class Test_API_Module_right_work(unittest.TestCase):
             body='000AB2DEE342D579F6FE914C85B9CF98EDE:5\r\n003EC0930A89382B60E0C012A0F916AC33F:1\r\n0059D41E74575F8580A0687D1791E9B313F:23\r\n61DDCC5E8A2DABEDE0F3B482CD9AEA9434D:273646', # a part of the response.text 
             status=200
         )
-        hashes = richiedi_dati_API(converted_pass[:5])
+        hashes = API_response(converted_pass[:5])
 
         hash_to_check = '61DDCC5E8A2DABEDE0F3B482CD9AEA9434D'
         tupla = (hashes, hash_to_check)
-        leaks = conta_trapelate(tupla)
+        leaks = leaked_count(tupla)
         self.assertEqual(leaks, 273646)
 
     @responses.activate
@@ -73,11 +70,11 @@ class Test_API_Module_right_work(unittest.TestCase):
             body='000AB2DEE342D579F6FE914C85B9CF98EDE:5\r\n003EC0930A89382B60E0C012A0F916AC33F:1\r\n0059D41E74575F8580A0687D1791E9B313F:23\r\n61DDCC5E8A2DABEDE0F3B482CD9AEA9434D:273646', # a part of the response.text 
             status=200
         )
-        hashes = richiedi_dati_API(converted_pass[:5])
+        hashes = API_response(converted_pass[:5])
 
         hash_to_check = '61DDCE5E8A2DABEDE0F3B482CD9AEA9434D' # invented hash
         tupla = (hashes, hash_to_check)
-        leaks = conta_trapelate(tupla)
+        leaks = leaked_count(tupla)
         self.assertEqual(leaks, 0)
 
     @responses.activate
@@ -91,7 +88,7 @@ class Test_API_Module_right_work(unittest.TestCase):
             status=200
         )
         resulted_tuple = pwned_API_check(query)
-        expected_tuple = (richiedi_dati_API(converted_pass[:5]), '61DDCC5E8A2DABEDE0F3B482CD9AEA9434D')
+        expected_tuple = (API_response(converted_pass[:5]), '61DDCC5E8A2DABEDE0F3B482CD9AEA9434D')
         self.assertEqual(resulted_tuple[1], expected_tuple[1])
     
     @responses.activate
@@ -105,12 +102,12 @@ class Test_API_Module_right_work(unittest.TestCase):
             status=200
         )
         resulted_tuple = pwned_API_check(query)
-        expected_tuple = (richiedi_dati_API(converted_pass[:5]), '61DDCC5E8A2DABEDE0F3B482CD9AEA9434D')
+        expected_tuple = (API_response(converted_pass[:5]), '61DDCC5E8A2DABEDE0F3B482CD9AEA9434D')
         self.assertEqual(resulted_tuple[0].content, expected_tuple[0].content)
 
 class Test_API_Module_fails(unittest.TestCase):
     @responses.activate
-    def test_richiedi_dati_API_error_4xx(self): # test the response type assertRaises or assertEqual depending on the type of response
+    def test_API_response_error_4xx(self): # test the response type assertRaises or assertEqual depending on the type of response
         query = 'random' # fix using hash1[:5] as query
         converted_pass = hashlib.sha1(query.encode('utf-8')).hexdigest().upper()
         error_4xx = [400, 401, 403, 404]
@@ -119,11 +116,11 @@ class Test_API_Module_fails(unittest.TestCase):
             # no text is required since the response raises an error
             status=random.choice(error_4xx)
         )
-        response = richiedi_dati_API(converted_pass[:5])
+        response = API_response(converted_pass[:5])
         self.assertEqual(response, 'Client error, verify your connection & account and retry later')
 
     @responses.activate
-    def test_richiedi_dati_API_error_429(self): # test the response type assertRaises or assertEqual depending on the type of response
+    def test_API_response_error_429(self): # test the response type assertRaises or assertEqual depending on the type of response
         query = 'random' # fix using hash1[:5] as query
         converted_pass = hashlib.sha1(query.encode('utf-8')).hexdigest().upper()
         responses.get(
@@ -131,11 +128,11 @@ class Test_API_Module_fails(unittest.TestCase):
             # no text is required since the response raises an error
             status=429
         )
-        response = richiedi_dati_API(converted_pass[:5])
+        response = API_response(converted_pass[:5])
         self.assertEqual(response, 'Client error: Too many requests, please split the file/list and retry')
 
     @responses.activate
-    def test_richiedi_dati_API_error_503(self): # test the response type assertRaises or assertEqual depending on the type of response
+    def test_API_response_error_503(self): # test the response type assertRaises or assertEqual depending on the type of response
         query = 'random' # fix using hash1[:5] as query
         converted_pass = hashlib.sha1(query.encode('utf-8')).hexdigest().upper()
         responses.get(
@@ -143,11 +140,11 @@ class Test_API_Module_fails(unittest.TestCase):
             # no text is required since the response raises an error
             status=503
         )
-        response = richiedi_dati_API(converted_pass[:5])
+        response = API_response(converted_pass[:5])
         self.assertEqual(response, 'Server error: Service Unavaiable, please retry later')
 
     @responses.activate
-    def test_richiedi_dati_API_error_random_error(self): # test the response type assertRaises or assertEqual depending on the type of response
+    def test_get_response_from_API_error_random_error(self): # test the response type assertRaises or assertEqual depending on the type of response
         query = 'hello' # fix using hash1[:5] as query
         converted_pass = hashlib.sha1(query.encode('utf-8')).hexdigest().upper()
         responses.get(
@@ -155,27 +152,8 @@ class Test_API_Module_fails(unittest.TestCase):
             # no text is required since the response raises an error
             status=303
         )
-        response = richiedi_dati_API(converted_pass[:5])
+        response = API_response(converted_pass[:5])
         self.assertEqual(response.status_code, 303)
-
-
-#TEST LOGS****************************************************************
-@unittest.skip('not implemented yet')
-class Test_API_Module_logs(unittest.TestCase):
-
-    @responses.activate
-    def test_richiedi_dati_API_response_content(self): # test the response type assertRaises or assertEqual depending on the type of response
-        query = 'hello' # fix using hash1[:5] as query
-        converted_pass = hashlib.sha1(query.encode('utf-8')).hexdigest().upper()
-        responses.get(
-            url='https://api.pwnedpasswords.com/range/' + converted_pass[:5],
-            status=400)
-        richiedi_dati_API(converted_pass[:5])
-        with self.assertLogs(logger='root' ,level=logging.DEBUG) as cm:
-            richiedi_dati_API(converted_pass[:5])
-        print(cm.output[0])
-        self.assertIn('HTTPError', cm.output[0])
-        pass
 
 
 class Test_API_Module_combined(unittest.TestCase):
@@ -211,7 +189,7 @@ class Test_API_Module_combined(unittest.TestCase):
         )
         resulted_count = []
         for password in pass_list:
-            count = conta_trapelate(pwned_API_check(password))
+            count = leaked_count(pwned_API_check(password))
             resulted_count.append(count)
         self.assertEqual(resulted_count, [273646, 11866, 0]) 
         
