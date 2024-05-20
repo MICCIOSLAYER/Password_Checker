@@ -1,7 +1,9 @@
-WHAT IT IS  & HOW TO WORK WITH IT
+WHAT IT IS  & HOW TO WORK WITH IT:
+
 This is my first project that i upload on Github, to increase my skill in coding and achieve a better understanding in code organization. The core execution is performed while attending the course of Andrei Nagoie on python Developement. Then it is adapted and integrated to be submitted on the course of Software and Computing in Applied Physics degree.
 
 HOW TO USE IT?
+
 * First: install the program in terminal when download use <pip install .>, then you can start the program from any directory in your pc with the command <Check-these-passwords>
 * The command for the program are:
     1. -fh or --from-here to manually introduce your passwords on the terminal, there are left no trace in local disk since the method to get them is getpass.getpass().
