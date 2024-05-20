@@ -117,7 +117,7 @@ class Test_API_Module_fails(unittest.TestCase):
             status=random.choice(error_4xx)
         )
         response = API_response(converted_pass[:5])
-        self.assertEqual(response, 'Client error, verify your connection & account and retry later')
+        self.assertEqual(response, 'Client error')
 
     @responses.activate
     def test_API_response_error_429(self): # test the response type assertRaises or assertEqual depending on the type of response
@@ -129,7 +129,7 @@ class Test_API_Module_fails(unittest.TestCase):
             status=429
         )
         response = API_response(converted_pass[:5])
-        self.assertEqual(response, 'Client error: Too many requests, please split the file/list and retry')
+        self.assertEqual(response, 'Client error')
 
     @responses.activate
     def test_API_response_error_503(self): # test the response type assertRaises or assertEqual depending on the type of response
@@ -141,7 +141,7 @@ class Test_API_Module_fails(unittest.TestCase):
             status=503
         )
         response = API_response(converted_pass[:5])
-        self.assertEqual(response, 'Server error: Service Unavaiable, please retry later')
+        self.assertEqual(response, 'Server error')
 
     @responses.activate
     def test_get_response_from_API_error_random_error(self): # test the response type assertRaises or assertEqual depending on the type of response
