@@ -1,8 +1,8 @@
-# CHECK:
+# CHECK-THESE-PASSWORDS...
 
 This is my first project that i upload on Github, to increase my skill in coding and achieve a better understanding in code organization. The core execution is performed while attending the course of Andrei Nagoie on python Developement. Then it is adapted and integrated to be submitted on the course of Software and Computing in Applied Physics degree.
 
-# HOW TO USE IT?
+## HOW TO USE IT?
 
 1. First: install the program in terminal when download use `pip install .`, then you can start the program from any directory in your pc with the command `Check-these-passwords`
 2. The command for the program are:
