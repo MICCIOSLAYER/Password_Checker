@@ -8,88 +8,113 @@ __email__ = 'renato.eliasy@studio.unibo.it'
 import argparse
 from Password_Checker.modules import manage_file 
 from Password_Checker.modules import API_functions 
-from Password_Checker.modules import Textuals 
-import pathlib
-import os
 from pathlib import Path
 import getpass
 import logging
+import sys
 
-logging.basicConfig(level=logging.DEBUG, filename='log.log',filemode='w', format='%(asctime)s - %(levelname)s - %(message)s', encoding='utf-8')
+#LOGGING CONFIGURATION
+logging.basicConfig( 
+    level=logging.INFO, 
+    filename=Path(__file__).parent / 'logs' / 'all_info_on.log',
+    filemode='w', 
+    format='%(asctime)s - %(levelname)s - %(name)s -> %(funcName)s : %(message)s', 
+    encoding='utf-8')
 
-# ESECUZIONE DEL PROGRAMMA 2.0
-def core_execution(passwords_list : list, sha_protocol : bool)-> None: # a function to slim the code in main()
+
+# PROGRAM EXECUTION 
+def core_execution(
+        passwords_list : list, 
+        verbosity : bool
+        )-> None: # a function to slim the code in main()
     '''
     Parameters:
     - passwords_list : list - the list of passwords to check
     - sha_protocol : bool - the protocol to use
     '''
-    # 
+    
+    if type(passwords_list) != list:
+        print('TypeError : the input is not a list, for more information check the log file')
+        sys.exit()
+    
     if len(passwords_list) <= 0:
         print('the list is empty, no passwords to check')
+        sys.exit()
+
     else:
+        sha_protocol = False # when implemented & add a parameter to function
+        count_records=[]
         for password in passwords_list:
-            count = API_functions.conta_trapelate(API_functions.pwned_API_check(password, sha256=sha_protocol))
+            count = API_functions.leaked_count(API_functions.pwned_API_check(password, sha256=sha_protocol))
+            count_records.append(count)
             if count:
                 print(f'\'{password}\' has been hacked {count} times')
             else:
                 print(f'\'{password}\' is not been hacked')
+        if (max(count_records) and verbosity):
+            print( '''For a better choise of your passwords, you can add some number and special caracters,
+remember to always include both capital letter and lower letter, with at least of 8 characters.
+                  ''')
     return None
 
 
 
 
 def main():
-    logging.basicConfig(filename='myapp.log',
-                        level=logging.INFO,
-                        format='%(asctime)s %(levelname)-8s %(module)s - %(funcName)s: %(message)s',
-                        datefmt='%Y-%m-%D %H:%M:%S')
+    #PARSER CONFIGURATION
+    parser = argparse.ArgumentParser(description='check the reliability of your passwords')
 
-    desktop_path = pathlib.Path(os.path.expanduser("~/Desktop")) # put them in a config files?
-    txt_file_default = desktop_path / 'default_list.txt'
+    sha256_protocol = parser.add_argument(
+        '--sha256', 
+        help='unable to use the sha256 protocol, since not implemtented yet in the code functionalities', 
+        action='store_true') 
+
+    parser_verbosity = parser.add_argument(
+        '-v', '--verbose',
+        help='increase output verbosity',
+        action='store_true')    
     
-    parser = argparse.ArgumentParser(description='check the security of your passwords')
-    sha256_protocol = parser.add_argument('--sha256', help='use the sha256 protocol', action='store_true') # FIXME use a False default value
 
-    reading_mode = parser.add_mutually_exclusive_group(required=True) 
-    parser_pwcl = reading_mode.add_argument('-l' , '--from_here', help='input the passwords here', action='store_true') 
-    parser_file = reading_mode.add_argument('-f' , '--from_file', type=Path, help='input the path to password\'s file, otherwise remember to fill the default file in your Desktop', default=manage_file.default_file_path()) 
-    parser_example = reading_mode.add_argument('-ex', '--example', help='use an example to show the program', action='store_true')
+    reading_mode = parser.add_mutually_exclusive_group(required=False) 
+    parser_pwcl = reading_mode.add_argument(
+        '-fh', '--from_here', 
+        help='input the passwords here, following the command to get them', 
+        action='store_true') 
     
-    verification_parser = parser.add_argument('-v', '--verify', help='verify the code behaviour', type=Path) # TODO remove once test on it are finished
-
+    parser_example = reading_mode.add_argument(
+        '-ex', '--example', 
+        help='use an example to show the program', 
+        action='store_true')
+    
+    parser_file = reading_mode.add_argument(
+        '-fl', '--from_file', 
+        help='input the path to password\'s file, otherwise remember to fill the default file in your Desktop', 
+        default=manage_file.default_file_path(), 
+        type=Path) 
+    
+    #ARGS PARSING   
     args =  parser.parse_args()
+    
     sha_protocol = args.sha256
     if sha_protocol: 
-        logging.warn('this option is not available yet, then the passwords will be checked with sha1 protocol')
-        sha_protocol = False  #since not implemented yet
-
-    if args.from_here: 
-        passwords_list = getpass.getpass(prompt='insert the passwords here, separated by space (then ENTER): ').split()
-        core_execution(passwords_list, sha_protocol)
-
-    elif args.from_file:
-        the_file = pathlib.Path(args.from_file)
-        core_execution(manage_file.txt_to_list(the_file), sha_protocol)
-        manage_file.keep_passwords_safe(the_file)
+        logging.warning('not available yet, then checked using sha1 protocol')
         
+    if args.example:
+        core_execution(manage_file.txt_to_list(manage_file.example_file()), args.verbose)
+        logging.info('this is a fixed example no need to keep safe the passwords')
+        sys.exit() 
 
-    elif args.example:
-        example_path = manage_file.example_file() #HACK after testing replace the path with a simple list of strings
-        core_execution(manage_file.txt_to_list(example_path), sha_protocol)
-        print('since this is an example, the passwords are casual and to be cancelled by the real file once the code is ok')
-
-    # TODO remove once test on it are finished
-    if args.verify: # continua a testare, -> testa il default path execution  per scrivere un contenuto aggiuntivo 
-        verification = type(args.verify)
-
-        print(f'{type(pathlib.Path(os.path.expanduser("~/Desktop")))} è il tipo di dato di {pathlib.Path(os.path.expanduser("~/Desktop"))}')
-        desktop_path = pathlib.Path(os.path.expanduser("~/Desktop"))
-        txt_file = desktop_path / 'default_list.txt'
-        with open(txt_file, 'r', encoding='utf-8') as f:
-            testo = f.read()
-            f.close()
-        print(f'{testo} è il contenuto del file {txt_file}')
+    elif args.from_here: 
+        passwords_list = getpass.getpass(prompt='insert the passwords here, separated by space (then ENTER): ').split()
+        core_execution(passwords_list, args.verbose)
+        logging.info('the passwords are not stored')
+        sys.exit()
+        
+    elif args.from_file:  #  It has to be at the end to avoid the execution of the default file 
+        the_file = Path(args.from_file)
+        core_execution(manage_file.txt_to_list(the_file), args.verbose) 
+        manage_file.keep_passwords_safe(the_file)
+        sys.exit() 
 
 if __name__ == '__main__':
     main()
