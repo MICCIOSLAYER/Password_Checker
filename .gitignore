@@ -1,0 +1,8 @@
+#ignore .egg-info
+.egg-info/
+
+#ignore .pyc files
+*.pyc
+
+#ignore .log file
+*.log
