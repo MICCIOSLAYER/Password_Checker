@@ -6,4 +6,3 @@ to set these files as a module"""
 
 __author__ = 'Renato Eliasy'
 __email__ = 'renato.eliasy@studio.unibo.it'
-

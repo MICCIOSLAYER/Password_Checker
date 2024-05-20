@@ -4,5 +4,3 @@
 
 __author__ = 'Renato Eliasy'
 __email__ = 'renato.eliasy@studio.unibo.it'
-
-
