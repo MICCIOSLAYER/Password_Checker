@@ -1,4 +1,4 @@
-# WHAT IT IS  & HOW TO WORK WITH IT:
+# CHECK:
 
 This is my first project that i upload on Github, to increase my skill in coding and achieve a better understanding in code organization. The core execution is performed while attending the course of Andrei Nagoie on python Developement. Then it is adapted and integrated to be submitted on the course of Software and Computing in Applied Physics degree.
 
@@ -15,5 +15,4 @@ In case none of these command are specified the program create a file named `def
 
 You can launch the program as latter case, while inserting the passwords to check in the same directory of `default_list.txt`, as security measure the file will be overwritten by an empty file.
 
-Hope your password you are not been pwned
-```
+Hope your you are not been pwned 👌
