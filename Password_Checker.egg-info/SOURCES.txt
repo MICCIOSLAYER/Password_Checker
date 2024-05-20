@@ -8,10 +8,11 @@ Password_Checker.egg-info/SOURCES.txt
 Password_Checker.egg-info/dependency_links.txt
 Password_Checker.egg-info/entry_points.txt
 Password_Checker.egg-info/top_level.txt
+Password_Checker/logs/__init__.py
 Password_Checker/modules/API_functions.py
-Password_Checker/modules/Textuals.py
 Password_Checker/modules/__init__.py
 Password_Checker/modules/manage_file.py
 Password_Checker/tests/__init__.py
+Password_Checker/tests/test_on_logs.py
 Password_Checker/tests/testing_API.py
 Password_Checker/tests/testing_manage_file.py

@@ -15,4 +15,5 @@ Requires: response
 Requires: pathlib
 Requires: getpass
 Requires: logging
+Requires: configparser
 License-File: LICENSE
