@@ -4,7 +4,7 @@ This is my first project that i upload on Github, to increase my skill in coding
 
 ## HOW TO USE IT?
 
-1. First: install the program in terminal when download use `pip install .`, then you can start the program from any directory in your pc with the command `Check-these-passwords`
+1. First: install the program in terminal when download use `pip install .` in the same dir of `setup.py`, then you can start the program from any directory in your pc with the command `Check-these-passwords`
 2. The command for the program are:
     * `-fh` or `--from-here` to manually introduce your passwords on the terminal, there are left no trace in local disk since the method to get them is `getpass.getpass()`.
     * `-fl` or `--from-file` to read passwords from a file, tin this case put the absolute path to your file, it has to be a txt and passwords must be separated by space or put in different lines.
