@@ -69,7 +69,6 @@ remember to always include both capital letter and lower letter, with at least o
 def main():
     '''
     Here the configuration of the parsers and the different executions
-    depending on parsers
     '''
 
     # PARSER CONFIGURATION

@@ -14,10 +14,10 @@ from Password_Checker.modules.API_functions import API_response, leaked_count, p
 
 class Test_API_Module_right_work(unittest.TestCase):
 
-    # TEST API_response-----------------------------------------------------
+    # TEST richiedi_dati_API-----------------------------------------------------
     @responses.activate
+    # test the response type assertRaises or assertEqual depending on the type of response
     def test_API_response_status_code(self):
-        '''test status code 200 '''
         query = 'hello'  # fix using hash1[:5] as query
         converted_pass = hashlib.sha1(
             query.encode('utf-8')).hexdigest().upper()
@@ -33,7 +33,6 @@ class Test_API_Module_right_work(unittest.TestCase):
     @responses.activate
     # test the response type assertRaises or assertEqual depending on the type of response
     def test_API_response_content(self):
-        '''test content of a good response.status_code.ok'''
         query = 'hello'  # fix using hash1[:5] as query
         converted_pass = hashlib.sha1(
             query.encode('utf-8')).hexdigest().upper()
@@ -49,7 +48,7 @@ class Test_API_Module_right_work(unittest.TestCase):
 
     @responses.activate
     def test_leaked_count_higher_than_0(self):
-        '''test if the correct count (!=0) is returned'''
+        # compulsory to get the response type from the API
         query = 'hello'
         converted_pass = hashlib.sha1(
             query.encode('utf-8')).hexdigest().upper()
@@ -67,7 +66,7 @@ class Test_API_Module_right_work(unittest.TestCase):
 
     @responses.activate
     def test_leaked_ZEROcount(self):
-        '''test if the correct count(==0) is returned, when not found'''
+        # compulsory to get the response type from the API
         query = 'hello'
         converted_pass = hashlib.sha1(
             query.encode('utf-8')).hexdigest().upper()
@@ -85,7 +84,7 @@ class Test_API_Module_right_work(unittest.TestCase):
 
     @responses.activate
     def test_pwned_API_check_the_search_key(self):
-        '''test if the key match to the one get by pwned_API_check return value '''
+        # compulsory to get the response type from the API
         query = 'hello'
         converted_pass = hashlib.sha1(
             query.encode('utf-8')).hexdigest().upper()
@@ -101,7 +100,7 @@ class Test_API_Module_right_work(unittest.TestCase):
 
     @responses.activate
     def test_pwned_API_check_the_server_response(self):
-        '''check if the pwned_API_check first return value corrisponds to the API response'''
+        # compulsory to get the response type from the API
         query = 'hello'
         converted_pass = hashlib.sha1(
             query.encode('utf-8')).hexdigest().upper()
@@ -120,14 +119,13 @@ class Test_API_Module_fails(unittest.TestCase):
     @responses.activate
     # test the response type assertRaises or assertEqual depending on the type of response
     def test_API_response_error_4xx(self):
-        '''test the 4xx error return string of error'''
         query = 'random'  # fix using hash1[:5] as query
         converted_pass = hashlib.sha1(
             query.encode('utf-8')).hexdigest().upper()
         error_4xx = [400, 401, 403, 404]
         responses.get(
             url='https://api.pwnedpasswords.com/range/' + converted_pass[:5],
-            # no text is required since the response return an error
+            # no text is required since the response raises an error
             status=random.choice(error_4xx)
         )
         response = API_response(converted_pass[:5])
@@ -136,7 +134,6 @@ class Test_API_Module_fails(unittest.TestCase):
     @responses.activate
     # test the response type assertRaises or assertEqual depending on the type of response
     def test_API_response_error_429(self):
-        '''test the 429 error return string of error'''
         query = 'random'  # fix using hash1[:5] as query
         converted_pass = hashlib.sha1(
             query.encode('utf-8')).hexdigest().upper()
@@ -151,7 +148,6 @@ class Test_API_Module_fails(unittest.TestCase):
     @responses.activate
     # test the response type assertRaises or assertEqual depending on the type of response
     def test_API_response_error_503(self):
-        '''test the 503 error return string of error'''
         query = 'random'  # fix using hash1[:5] as query
         converted_pass = hashlib.sha1(
             query.encode('utf-8')).hexdigest().upper()
@@ -166,7 +162,6 @@ class Test_API_Module_fails(unittest.TestCase):
     @responses.activate
     # test the response type assertRaises or assertEqual depending on the type of response
     def test_get_response_from_API_error_random_error(self):
-        '''test the 303 error return status code'''
         query = 'hello'  # fix using hash1[:5] as query
         converted_pass = hashlib.sha1(
             query.encode('utf-8')).hexdigest().upper()
@@ -183,7 +178,7 @@ class Test_API_Module_combined(unittest.TestCase):
 
     @responses.activate
     def test_final_combination_API_functions_module(self):
-        '''test the functioning for a list of requests'''
+
         query1 = 'hello'
         converted_pass1 = hashlib.sha1(
             query1.encode('utf-8')).hexdigest().upper()

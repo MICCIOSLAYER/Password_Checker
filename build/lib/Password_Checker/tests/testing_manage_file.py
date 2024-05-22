@@ -19,18 +19,15 @@ class Test_File_Module_single_successes(utt.TestCase):
 
     # test on TXT_TO_LIST---------------------------------------------------
     def test_txt_to_list_type(self):
-        '''test the type of element stored in password_list'''
         the_list = mf.txt_to_list(mf.example_file())
         for password in the_list:
             self.assertEqual(type(password), str)
 
     def test_not_txt_to_list(self):
-        '''test if the function raises an error when the file is not a .txt'''
         the_list = mf.txt_to_list('not_txt_file.docx')
         self.assertRaises(TypeError, the_list)
 
     def test_txt_to_list_return(self):
-        '''test if the function returns the list of passwords stored in the file as the_list'''
         the_list = ['password1', 'password2', 'password3']
         content = 'password1\npassword2 password3'
         testing_file_path = Path.home() / 'testing_file.txt'
@@ -41,19 +38,17 @@ class Test_File_Module_single_successes(utt.TestCase):
         os.remove(testing_file_path)
 
     # TEST ON DEFAULT_FILE_PATH----------------------------------------------
+
     def test_default_file_path_existence_isFile(self):
-        '''test if the default file is a txt-file'''
         the_path = mf.default_file_path()
         self.assertTrue(Path(the_path).is_file)
         self.assertIn('.txt', str(the_path))
 
     def test_default_file_path_existence_(self):
-        '''test the existence of default_file_path'''
         the_path = mf.default_file_path()
         self.assertTrue(os.path.exists(the_path))
 
     def test_default_file_path_content_just_created(self):
-        '''test if the default file is created with the pre-set content'''
         if os.path.exists(mf.default_file_path()):
             os.remove(mf.default_file_path())
         the_path = mf.default_file_path()
@@ -65,7 +60,6 @@ class Test_File_Module_single_successes(utt.TestCase):
         self.assertNotEqual(Path(the_path).stat().st_size, 0)
 
     def test_default_file_path_not_overwriting(self):
-        '''test if the default file is not overwritten if not empty'''
         the_path = mf.default_file_path()
         content = 'password1\npassword2 password3'
         with open(the_path, 'w', encoding='utf-8') as f:
@@ -76,11 +70,11 @@ class Test_File_Module_single_successes(utt.TestCase):
             f.seek(0)
             expected_content = f.read()
             f.close()
+
         self.assertEqual(expected_content, content)
 
     # TEST ON KEEP_PASSWORDS_SAFE--------------------------------------------
     def test_keep_passwords_safe_emptied(self):
-        '''test if keep_passwords_safe empties the default file'''
         the_path = mf.example_file()
         with open(the_path, 'w', encoding='utf-8') as f:
             f.write('password1\npassword2 password3')
@@ -92,19 +86,16 @@ class Test_File_Module_single_successes(utt.TestCase):
         self.assertEqual(content, '')
 
     def test_keep_passwords_safe_still_there(self):
-        '''test if the emptied file still exists'''
         the_emptied_file = mf.keep_passwords_safe(mf.example_file())
         self.assertTrue(os.path.exists(mf.example_file()))
 
     # test on EXAMPLE_FILE_PATH-----------------------------------------------
 
     def test_example_file_is_file(self):
-        '''test if example_file_path is a file'''
         the_path = mf.example_file()
         self.assertTrue(Path(the_path).is_file)
 
     def test_example_file_content(self):
-        '''test if the example file has the pre-set content'''
         the_path = mf.example_file()
         with open(the_path, 'r', encoding='utf-8') as f:
             content = f.read()
@@ -116,7 +107,6 @@ class Test_File_Module_single_failures(utt.TestCase):
     # test it will fail as it is expected to fail
 
     def test_txt_to_list_non_existing_file(self):
-        '''test if the return string is right in case of non_existing_file'''
         the_non_existing_file = Path.home() / 'non_existing_file.txt'
         if os.path.exists(the_non_existing_file):
             os.remove(the_non_existing_file)
@@ -125,20 +115,19 @@ class Test_File_Module_single_failures(utt.TestCase):
             Path.home() / 'non_existing_file.txt'))
 
     def test_txt_to_list_not_txt_file(self):
-        '''test if the return string is right in case of not_txt_file'''
         the_not_txt_file = Path.home() / 'not_txt_file.docx'
         content = 'password1\npassword2 password3'
         the_not_txt_file.parent.mkdir(exist_ok=True, parents=True)
         with open(the_not_txt_file, 'w', encoding='utf-8') as f:
             f.write(content)
             f.close()
+
         self.assertEqual(mf.txt_to_list(the_not_txt_file),
                          'this is not a txt file')
         os.remove(the_not_txt_file)
 
     @utt.skip(reason="Not working, as the encoding is not important for txt files")
     def test_txt_to_list_unreadable_file(self):
-        '''test if the return string is right in case of unreadable_file due to different encoding'''
         the_unreadable_file = Path.home() / 'unreadable_file.txt'
         content = 'password1\npassword2 password3'
         with open(the_unreadable_file, 'w', encoding='cp1252', errors='strict') as f:
@@ -151,7 +140,6 @@ class Test_File_Module_single_failures(utt.TestCase):
         pass  # has to be skipped, as the encoding is not important for txt files
 
     def test_keep_passwords_safe_not_existing_file(self):
-        '''test if the return string is right in case of non_existing_file'''
         the_non_existing_file = Path.home() / 'non_existing_file.txt'
         if os.path.exists(the_non_existing_file):
             os.remove(the_non_existing_file)
@@ -163,14 +151,12 @@ class Test_File_Module_single_failures(utt.TestCase):
 class Test_File_Module_combined_successes(utt.TestCase):
 
     def test_keep_passwords_safe_and_txt_to_list(self):
-        '''test if the passwords_list after keep_passwords_safe is empty'''
         file_to_be_tested = mf.example_file()
         mf.keep_passwords_safe(file_to_be_tested)
 
         self.assertEqual(mf.txt_to_list((file_to_be_tested)), [])
 
     def test_keep_passwords_safe_and_default_file_path(self):
-        '''test if the default file is overwritten and emptied after keep_passwords_safe'''
         dir_to_be_tested = mf.default_file_path()
         mf.keep_passwords_safe(mf.default_file_path())
         # test if the file is empty as keep_passwords_safe should do

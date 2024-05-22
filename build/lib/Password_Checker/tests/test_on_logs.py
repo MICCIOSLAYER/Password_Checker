@@ -52,7 +52,7 @@ class TestOnLogs_txt_to_list(TestCase):
 class Test_Logs_on_default_path(TestCase):
     def test_LOGS_default_file_path(self):
         '''test logs if the default path is shown'''
-        with self.assertLogs(logger='root', level='DEBUG') as cm:
+        with self.assertLogs(logger='root', level='INFO') as cm:
             mf.default_file_path()
         print(cm.output[0])
         self.assertIn('this is a default_path list of passwords', cm.output[0])
@@ -103,5 +103,21 @@ class Test_Logs_on_keep_passwords_safe(TestCase):
         self.assertIn('the note is now blank', cm.output[0])
 
 
-if __name__ == '__main__':
-    unittest.main()
+class Test_Logs_on_API(TestCase):
+
+    # test the response type assertRaises or assertEqual depending on the type of response
+    def test_richiedi_dati_API_error_4xx(self):
+        query = 'random'  # fix using hash1[:5] as query
+        converted_pass = hashlib.sha1(
+            query.encode('utf-8')).hexdigest().upper()
+        error_4xx = [400, 401, 403, 404]
+        responses.get(
+            url='https://api.pwnedpasswords.com/range/' + converted_pass[:5],
+            # no text is required since the response raises an error
+            status=random.choice(error_4xx)
+        )
+
+        with self.assertLogs() as cm:
+            api.richiedi_dati_API(converted_pass[:5])
+
+        print(cm.output)
