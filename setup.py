@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 setup(
     name='Password_Checker',
     version='0.1.0',
-    requires=['requests', 'hashlib', 'sys', 'os', 're', 'argparse',
+    requires=['requests==2.30', 'hashlib', 'sys', 'os', 're', 'argparse',
               'response', 'pathlib', 'getpass', 'logging', 'configparser'],
     packages=find_packages(),
     entry_points={
