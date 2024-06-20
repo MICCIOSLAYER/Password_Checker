@@ -1,2 +1,0 @@
-[console_scripts]
-Check-these-passwords = Password_Checker.__main__:main
