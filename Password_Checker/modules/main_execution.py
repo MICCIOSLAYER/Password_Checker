@@ -6,7 +6,7 @@ __author__ = 'Renato Eliasy'
 __email__ = 'renato.eliasy@studio.unibo.it'
 
 
-from modules import API_functions
+from Password_Checker.modules import API_functions
 import sys
 
 # PROGRAM EXECUTION
@@ -49,7 +49,6 @@ def core_execution(
             else:
                 print(f'\'{password}\' is not been hacked')
         if (max(count_records) and verbosity):
-            print('''For a better choise of your passwords, you can add some number and special caracters,
-remember to always include both capital letter and lower letter, with at least of 8 characters.
-                  ''')
+            print('For a better choise of your passwords, you can add some number and special caracters,\nremember to always include both capital letter and lower letter, with at least of 8 characters.'
+                  )
     return None
