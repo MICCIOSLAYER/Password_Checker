@@ -6,3 +6,6 @@
 
 #ignore .log file
 *.log
+
+#ignore __pycache__ dir
+__pycache__/
