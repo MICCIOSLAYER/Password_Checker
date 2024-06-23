@@ -9,3 +9,6 @@
 
 #ignore __pycache__ dir
 __pycache__/
+
+#ignore logs 
+Password_Checker/logs/
