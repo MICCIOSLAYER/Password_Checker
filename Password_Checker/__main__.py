@@ -14,9 +14,11 @@ import logging
 import sys
 
 # LOGGING CONFIGURATION
+logging_file_path = os.path.join(os.getcwd(), 'all_info_on.log')
+
 logging.basicConfig(
     level=logging.INFO,
-    filename=Path(__file__).parent / 'logs' / 'all_info_on.log',
+    filename=Path(logging_file_path),
     filemode='w',
     format='%(asctime)s - %(levelname)s - %(name)s -> %(funcName)s : %(message)s',
     encoding='utf-8')
