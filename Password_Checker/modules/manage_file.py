@@ -31,7 +31,6 @@ def txt_to_list(txt_file: Path) -> list[str] | str:
 
         with open(txt_file, 'r', encoding='utf-8', errors='strict') as f:
             passwords_list = f.read().split()
-            f.close()
             if len(passwords_list) == 0:
                 logging.warning('no passwords are stored here')
 
@@ -75,7 +74,7 @@ def default_file_path() -> Path:
             blanked = b.read() == ''
             if blanked:  # overwrite of the file if empty
                 b.write(content)
-            b.close()
+
         if blanked:  # necessary outside to logging correctly
             logging.warning(
                 f'the file {txt_file_default} is blank, then it will be overwritten')
@@ -86,7 +85,6 @@ def default_file_path() -> Path:
         txt_file_default.parent.mkdir(exist_ok=True, parents=True)
         with open(txt_file_default, 'w', encoding='utf-8') as f:
             f.write(content)
-            f.close()
 
     return (txt_file_default)
 
@@ -110,7 +108,6 @@ def keep_passwords_safe(txt_file: Path) -> None:
             with open(txt_file, 'w', encoding='utf-8') as f:
                 f.seek(0)
                 f.write('')
-                f.close()
         else:
             raise FileNotFoundError
 
@@ -141,5 +138,4 @@ def example_file() -> Path:
     example_path.parent.mkdir(exist_ok=True, parents=True)
     with open(example_path, 'w', encoding='utf-8') as f:
         f.write(content)
-        f.close()
     return example_path

@@ -136,7 +136,7 @@ class Test_File_Module_single_successes(utt.TestCase):
         the_path = mf.default_file_path()
         with open(the_path, 'r', encoding='utf-8') as f:
             content = f.read()
-            f.close()
+
         self.assertEqual(
             content, 'D_default_path4 these@password isins1de thi5Pc')
         self.assertNotEqual(Path(the_path).stat().st_size, 0)
@@ -161,12 +161,12 @@ class Test_File_Module_single_successes(utt.TestCase):
         content = 'password1\npassword2 password3'
         with open(the_path, 'w', encoding='utf-8') as f:
             f.write(content)
-            f.close()
+
         mf.default_file_path()
         with open(the_path, 'r', encoding='utf-8') as f:
             f.seek(0)
             expected_content = f.read()
-            f.close()
+
         self.assertEqual(expected_content, content)
 
     # TEST ON KEEP_PASSWORDS_SAFE--------------------------------------------
@@ -188,11 +188,11 @@ class Test_File_Module_single_successes(utt.TestCase):
         the_path = mf.example_file()
         with open(the_path, 'w', encoding='utf-8') as f:
             f.write('password1\npassword2 password3')
-            f.close()
+
         mf.keep_passwords_safe(the_path)
         with open(the_path, 'r', encoding='utf-8') as f:
             content = f.read()
-            f.close()
+
         self.assertEqual(content, '')
 
     def test_keep_passwords_safe_emptied(self):
@@ -213,11 +213,11 @@ class Test_File_Module_single_successes(utt.TestCase):
         the_path = Path.home() / "Check_these_passwords" / "example_list.txt"
         with open(the_path, 'w', encoding='utf-8') as f:
             f.write('password1\npassword2 password3')
-            f.close()
+
         mf.keep_passwords_safe(the_path)
         with open(the_path, 'r', encoding='utf-8') as f:
             content = f.read()
-            f.close()
+
         self.assertEqual(content, '')
 
     def test_keep_passwords_safe_example_file_still_there(self):
@@ -296,7 +296,7 @@ class Test_File_Module_single_successes(utt.TestCase):
         the_path = mf.example_file()
         with open(the_path, 'r', encoding='utf-8') as f:
             content = f.read()
-            f.close()
+
         self.assertEqual(content, 'today@is @b34UtIfull\nTh4n Y3sterd@y')
 
 
@@ -374,7 +374,7 @@ class Test_File_Module_single_failures(utt.TestCase):
         content = 'password1\npassword2 password3'
         with open(the_unreadable_file, 'w', encoding='cp1252', errors='strict') as f:
             f.write(content)
-            f.close()
+
         self.assertEqual(mf.txt_to_list(the_unreadable_file),
                          'Unreadable file, assure to use a UTF-8 encoded file to store your passwords')
         os.remove(the_unreadable_file)
@@ -449,14 +449,12 @@ class Test_File_Module_combined_successes(utt.TestCase):
         # test if the file is empty as keep_passwords_safe should do
         with open(dir_to_be_tested, 'r', encoding='utf-8') as f:
             blank_file = f.read()
-            f.close()
 
         self.assertEqual(blank_file, '')  # be sure that the file is empty
         # test if the file is overwritten as default_file_path should do
         mf.default_file_path()
         with open(mf.default_file_path(), 'r', encoding='utf-8') as f:
             content = f.read()
-            f.close()
 
         self.assertEqual(
             content, 'D_default_path4 these@password isins1de thi5Pc')
