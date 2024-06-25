@@ -69,8 +69,8 @@ class Test_File_Module_single_successes(utt.TestCase):
         - same output between the given and the obtained
         '''
 
-        the_list = ['password1', 'password2', 'password3']
-        content = 'password1\npassword2 password3'
+        the_list = ['password1', 'password 2', 'password3']
+        content = 'password1\npassword 2\npassword3'
         testing_file_path = Path.home() / 'testing_file.txt'
         with open(testing_file_path, 'w', encoding='utf-8') as f:
             f.write(content)
@@ -138,7 +138,7 @@ class Test_File_Module_single_successes(utt.TestCase):
             content = f.read()
 
         self.assertEqual(
-            content, 'D_default_path4 these@password isins1de thi5Pc')
+            content, 'D_default_path4\nthese@password\nisins1de\nthi5Pc')
         self.assertNotEqual(Path(the_path).stat().st_size, 0)
 
     def test_default_file_path_not_overwriting(self):
@@ -158,7 +158,7 @@ class Test_File_Module_single_successes(utt.TestCase):
         '''
 
         the_path = mf.default_file_path()
-        content = 'password1\npassword2 password3'
+        content = 'password1\npassword 2\npassword3'
         with open(the_path, 'w', encoding='utf-8') as f:
             f.write(content)
 
@@ -187,7 +187,7 @@ class Test_File_Module_single_successes(utt.TestCase):
 
         the_path = mf.example_file()
         with open(the_path, 'w', encoding='utf-8') as f:
-            f.write('password1\npassword2 password3')
+            f.write('password1\npassword 2\npassword3')
 
         mf.keep_passwords_safe(the_path)
         with open(the_path, 'r', encoding='utf-8') as f:
@@ -212,7 +212,7 @@ class Test_File_Module_single_successes(utt.TestCase):
 
         the_path = Path.home() / "Check_these_passwords" / "example_list.txt"
         with open(the_path, 'w', encoding='utf-8') as f:
-            f.write('password1\npassword2 password3')
+            f.write('password1\npassword 2\npassword3')
 
         mf.keep_passwords_safe(the_path)
         with open(the_path, 'r', encoding='utf-8') as f:
@@ -297,7 +297,7 @@ class Test_File_Module_single_successes(utt.TestCase):
         with open(the_path, 'r', encoding='utf-8') as f:
             content = f.read()
 
-        self.assertEqual(content, 'today@is @b34UtIfull\nTh4n Y3sterd@y')
+        self.assertEqual(content, 'today@is\n@b34UtIfull\nTh4n\nY3sterd@y')
 
 
 class Test_File_Module_single_failures(utt.TestCase):
@@ -440,7 +440,7 @@ class Test_File_Module_combined_successes(utt.TestCase):
 
         ----------
         Expected Outputs:
-        - a balnk file after keep_passwords_safe()
+        - a blank file after keep_passwords_safe()
         - the default content after emptied the default file and execute the default_file_path()
         '''
 
@@ -457,7 +457,7 @@ class Test_File_Module_combined_successes(utt.TestCase):
             content = f.read()
 
         self.assertEqual(
-            content, 'D_default_path4 these@password isins1de thi5Pc')
+            content, 'D_default_path4\nthese@password\nisins1de\nthi5Pc')
 
 
 if __name__ == '__main__':

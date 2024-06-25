@@ -30,7 +30,7 @@ def txt_to_list(txt_file: Path) -> list[str] | str:
             raise TypeError('this is not a txt file')
 
         with open(txt_file, 'r', encoding='utf-8', errors='strict') as f:
-            passwords_list = f.read().split()
+            passwords_list = f.read().splitlines()
             if len(passwords_list) == 0:
                 logging.warning('no passwords are stored here')
 
@@ -65,7 +65,7 @@ def default_file_path() -> Path:
 
     desktop_path = Path(os.path.expanduser("~/Desktop"))
     txt_file_default = desktop_path / "default_list.txt"
-    content = 'D_default_path4 these@password isins1de thi5Pc'
+    content = 'D_default_path4\nthese@password\nisins1de\nthi5Pc'
     logging.debug(
         f'this is a default_path list of passwords: {txt_file_default}')
 
@@ -134,7 +134,7 @@ def example_file() -> Path:
 
     '''
     example_path = Path.home() / "Check_these_passwords" / "example_list.txt"
-    content = 'today@is @b34UtIfull\nTh4n Y3sterd@y'
+    content = 'today@is\n@b34UtIfull\nTh4n\nY3sterd@y'
     example_path.parent.mkdir(exist_ok=True, parents=True)
     with open(example_path, 'w', encoding='utf-8') as f:
         f.write(content)

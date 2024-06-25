@@ -30,7 +30,7 @@ class TestOnLogs_txt_to_list(TestCase):
         - expected (not a txt file) at CRITICAL level of logs
         '''
         the_not_txt_file = Path.home() / 'not_txt_file.docx'
-        content = 'password1\npassword2 password3'
+        content = 'password1\npassword 2\npassword3'
         the_not_txt_file.parent.mkdir(exist_ok=True, parents=True)
         with open(the_not_txt_file, 'w', encoding='utf-8') as f:
             f.write(content)
@@ -75,7 +75,7 @@ class TestOnLogs_txt_to_list(TestCase):
         - a variable of a file_path
         --------
         Methods:
-        - using the context manager to create a file, the_non_existing_file, then remove it
+        - using the context manager to create the_non_existing_file, then remove it
         - using the assertLogs to catch all the logs in the output
         ----------
         Expected Output:
@@ -147,7 +147,7 @@ class Test_Logs_on_default_path(TestCase):
         - using the assertLogs to catch all the logs in the output
         ----------
         Expected Output:
-        - expected (since 'the default path' is not found, it will be created) at WARNING level of logs
+        - expected (since 'the default path' is not found, it will be created) at DEBUG level of logs
         '''
         if os.path.exists(mf.default_file_path()):
             os.remove(mf.default_file_path())
@@ -173,7 +173,7 @@ class Test_Logs_on_keep_passwords_safe(TestCase):
         - using the assertLogs to catch all the logs in the output
         ----------
         Expected Output:
-        - expected (file 'the_non_existing_file path' not found) at WARNING level of logs
+        - expected (file 'the_non_existing_file path' not found) at ERROR level of logs
         '''
         the_non_existing_file = Path.home() / 'non_existing_file.txt'
         if os.path.exists(the_non_existing_file):
@@ -195,11 +195,11 @@ class Test_Logs_on_keep_passwords_safe(TestCase):
         - using the assertLogs to catch all the logs in the output
         ----------
         Expected Output:
-        - expected (the note is now blank) at WARNING level of logs
+        - expected (the note is now blank) at INFO level of logs
         '''
         the_path = mf.example_file()
         with open(the_path, 'w', encoding='utf-8') as f:
-            f.write('password1\npassword2 password3')
+            f.write('password1\npassword 2\npassword3')
             f.close()
         with self.assertLogs(logger='root', level='INFO') as cm:
             mf.keep_passwords_safe(the_path)
