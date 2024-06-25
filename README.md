@@ -6,12 +6,12 @@ This is my first project that i upload on Github, to increase my skill in coding
 This code is used to check if a password or a list of them through the website: https://haveibeenpwned.com/Passwords
 Once selected the option of check your password(s), the program return a string expressing the number of count, that quantify how many times this string is searched online
 
-## INSTRUCTION, better to read what to do for a proper use of it
+## INSTRUCTIONs (better to read what to do for a proper use of it, to avoid mistakes)
 
 To use the program after installation, you have to run it from terminal:
 - You can give the passwords from the terminal itself, no worries, they are known only by your fingers, since they aren't visible during the typing; or through a txt file
 
-### IMPORTANT NOTE: 
+### IMPORTANT NOTEs: 
 - The passwords in the txt file must be placed **one for each lines**
 - Be sure to encode the txt file with utf-8
 - After running the code and read the password in your txt file, it will be overwritten by a blank file, to keep secret your passwords
