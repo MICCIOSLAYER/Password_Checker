@@ -19,8 +19,9 @@ To use the program after installation, you have to run it from terminal:
 ## HOW CAN I HAVE IT 
 
 Download the repo in a folder whose name has to be `Password_Checker`.
-In the terminal, once you are in the same location of this folder, launch the command `pip install .` (that is the same directory of the `setup.py` file); alternatively you can launch the command `pip install --editable Password_Checker` in the folder where you store the download (if you use another name to the saving folder as `Saving_Folder` you have to change the command in `pip install --editable Saving_Folder`)
-In the latter case you probably need to manually install, if not already present the `requests` library, with `pip install requests` or similar.
+In the terminal, once you are in the same location of this folder, launch the command `pip install .` (that is the same directory of the `setup.py` file);
+Alternatively you can launch the command `pip install --editable Password_Checker` in the folder where you store the download (if you use another name to the saving folder as `Saving_Folder` you have to change the command in `pip install --editable Saving_Folder`).
+In the second case you probably need to manually install, if not already present, the `requests` library, with `pip install requests` or similar.
 
 ## HOW TO USE IT?
 
