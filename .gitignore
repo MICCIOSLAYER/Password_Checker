@@ -4,6 +4,8 @@
 
 #ignore .pyc files
 *.pyc
+*.py[cod]
+*$py.class
 
 #ignore .log file
 *.log
