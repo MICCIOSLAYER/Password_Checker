@@ -12,6 +12,10 @@
 __pycache__/*
 __pycache__/
 
+#ignore mypy cache dir and the file inside
+.mypy_cache/*
+.mypy_cache/
+
 #ignore logs dir and the file inside
 Password_Checker/logs/*
 Password_Checker/logs/
