@@ -10,9 +10,10 @@ import hashlib
 import logging
 from requests.exceptions import HTTPError
 from pathlib import Path
+from typing import Any
 
 
-def API_response(query: any) -> requests.Response:
+def API_response(query: Any) -> requests.Response:
     '''
 
     Get the response from the API, if the status code is not ok, log an error
@@ -49,8 +50,7 @@ def API_response(query: any) -> requests.Response:
                 f'Server error: Service Unavaiable, please retry later')
             return 'Server error'
     else:
-        if response.ok:  # between 200 and 299
-            return response
+        return response
 
 
 def leaked_count(tupla: tuple) -> int:
@@ -98,13 +98,12 @@ def pwned_API_check(password: str, sha256=False) -> tuple:
     '''
     sha1Pass = hashlib.sha1(password.encode('utf-8')).hexdigest().upper()
     to_put_into_api, match_by_list = sha1Pass[:5], sha1Pass[5:]
-    # since the url request the first 5 @@@@@ of conversion to get the list of hashes violated
-    answer = API_response(to_put_into_api)
 
     if sha256 == True:
-        sha256pass = hashlib.sha256(
-            password.encode('utf-8').hexdigest()).upper()
+        sha256pass = str(hashlib.sha256(
+            password.encode('utf-8')).hexdigest()).upper()
         to_put_into_api, match_by_list = sha256pass[:5], sha256pass[5:]
-        answer = API_response(to_put_into_api)  # TODO  avoid in-call
+
+    answer = API_response(to_put_into_api)  # TODO  avoid in-call
 
     return tuple([answer, match_by_list])

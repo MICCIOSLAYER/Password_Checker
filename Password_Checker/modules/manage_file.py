@@ -11,7 +11,7 @@ import os
 import logging
 
 
-def txt_to_list(txt_file: Path) -> list[str]:
+def txt_to_list(txt_file: Path) -> list[str] | str:
     '''
     Put the txt file content in a list of Strings
 
