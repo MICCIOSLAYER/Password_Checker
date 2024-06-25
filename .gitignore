@@ -1,5 +1,6 @@
-#ignore .egg-info
+#ignore .egg-info dir and the file inside
 .egg-info/
+.egg-info/*
 
 #ignore .pyc files
 *.pyc
@@ -7,8 +8,14 @@
 #ignore .log file
 *.log
 
-#ignore __pycache__ dir
+#ignore __pycache__ dir and the file inside
+__pycache__/*
 __pycache__/
 
-#ignore logs 
+#ignore logs dir and the file inside
+Password_Checker/logs/*
 Password_Checker/logs/
+
+# ignore the build due to the application installation
+build/*
+build/
