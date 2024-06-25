@@ -12,11 +12,6 @@ from requests.exceptions import HTTPError
 from pathlib import Path
 
 
-# CONFIGURATION OF LOGGING
-script_dir = Path(__file__).parent
-logs_path = script_dir.parent.parent / 'Password_Checker' / 'logs'
-
-
 def API_response(query: any) -> requests.Response:
     '''
 

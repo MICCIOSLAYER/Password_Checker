@@ -25,7 +25,7 @@ def txt_to_list(txt_file: Path) -> list[str]:
 
     '''
     try:
-        if str(txt_file).rpartition('.')[-1] != 'txt':
+        if str(txt_file).partition('.')[-1] != 'txt':
             logging.critical(f'{txt_file} is not a txt file')
             raise TypeError('this is not a txt file')
 

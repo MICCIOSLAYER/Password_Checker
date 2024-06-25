@@ -12,6 +12,7 @@ from pathlib import Path
 import getpass
 import logging
 import sys
+import os
 
 # LOGGING CONFIGURATION
 logging_file_path = os.path.join(os.getcwd(), 'all_info_on.log')
