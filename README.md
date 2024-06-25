@@ -15,6 +15,7 @@ To use the program after installation, you have to run it from terminal:
 - The passwords in the txt file must be placed **one for each lines**
 - Be sure to encode the txt file with utf-8
 - After running the code and read the password in your txt file, it will be overwritten by a blank file, to keep secret your passwords
+- If you prefer to digit manually your passwords in terminal, use the sequence `||`, a `double pipe`, to separate the passwords, as space are counted as plausible characters of a password
 
 ## HOW CAN I HAVE IT 
 
