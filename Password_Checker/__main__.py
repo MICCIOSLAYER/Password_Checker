@@ -78,7 +78,7 @@ def main():
 
     elif args.from_here:
         passwords_list = getpass.getpass(
-            prompt='insert the passwords here, separated by space (then ENTER): ').split()
+            prompt='insert the passwords here, separated by this combination || (then ENTER): ').split(sep='||')
         core_execution(passwords_list, args.verbose)
         logging.info('the passwords are not stored')
         sys.exit()
