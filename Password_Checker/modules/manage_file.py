@@ -142,4 +142,4 @@ def example_file() -> Path:
     with open(example_path, 'w', encoding='utf-8') as f:
         f.write(content)
         f.close()
-        return example_path
+    return example_path
