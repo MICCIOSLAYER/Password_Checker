@@ -25,13 +25,14 @@ In the second case you probably need to manually install, if not already present
 
 ## HOW TO USE IT?
 
-The command for the program are:
-    * `-fh` or `--from-here` to manually introduce your passwords on the terminal, there are left no trace in local disk since the method to get them is `getpass.getpass()`.
-    * `-fl` or `--from-file` to read passwords from a file, tin this case put the absolute path to your file, it has to be a txt and passwords must be separated by space or put in different lines.
-    * `-ex` or `--example` to show how the program works and what's the output.
-    * `-v` or `--verbosity` to get some suggestion in case your passwords have been violated.
+To access the program use `Check-these-passwords` in your terminal after installation, you can use it in any location. The optional commands for the program are:
 
-In case none of these command are specified the program create a file named `default_list.txt` in your Desktop and get a pre-set list of passwords: [`D_default_path4`, `these@password`, `isins1de`, `thi5Pc`].
+ * `-fh` or `--from-here` to manually introduce your passwords on the terminal, there are left no trace in local disk since the method to get them is `getpass.getpass()`.
+ * `-fl` or `--from-file` to read passwords from a file, tin this case put the absolute path to your file, it has to be a txt and passwords must be separated by space or put in different lines.
+ * `-ex` or `--example` to show how the program works and what's the output.
+ * `-v` or `--verbosity` to get some suggestion in case your passwords have been violated.
+
+In case none of these commands are specified the program create a file named `default_list.txt` in your Desktop and get a pre-set list of passwords: [`D_default_path4`, `these@password`, `isins1de`, `thi5Pc`].
 
 You can launch the program as latter case, while inserting the passwords to check in the same directory of `default_list.txt`, as security measure the file will be overwritten by an empty file.
 
